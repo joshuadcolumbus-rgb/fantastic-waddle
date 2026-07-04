@@ -1,0 +1,27 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Volt",
+    "theme_version": "1.0.0",
+    "theme_author": "fantastic-waddle",
+    "theme_documentation_url": "https://github.com/joshuadcolumbus-rgb/fantastic-waddle",
+    "theme_support_url": "https://github.com/joshuadcolumbus-rgb/fantastic-waddle/issues"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Accent (electrical amber)",
+        "default": "#f59e0b"
+      },
+      {
+        "type": "color",
+        "id": "glow_color",
+        "label": "Secondary glow (electric teal)",
+        "default": "#22d3ee"
+      }
+    ]
+  }
+]

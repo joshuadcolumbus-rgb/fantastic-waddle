@@ -1,0 +1,306 @@
+/* ==========================================================================
+   VOLT / base.css — industrial SaaS design system for the electrician theme
+   Layers: tokens → reset → typography → ambient light → panels → motion
+   ========================================================================== */
+
+:root {
+  --volt-bg: #0a0f1a;
+  --volt-bg-raised: #0f1626;
+  --volt-amber: #f59e0b;
+  --volt-amber-soft: rgba(245, 158, 11, 0.45);
+  --volt-teal: #22d3ee;
+  --volt-blue: #3b82f6;
+  --volt-ink: #e2e8f0;
+  --volt-ink-dim: #94a3b8;
+  --volt-hairline: rgba(255, 255, 255, 0.08);
+  --volt-glass: rgba(255, 255, 255, 0.04);
+  --volt-radius: 18px;
+  --volt-ease: cubic-bezier(0.22, 1, 0.36, 1); /* GSAP power3.out equivalent */
+  --volt-gutter: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* ---- reset ---------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 800px at 80% -10%, #101a30 0%, transparent 60%),
+    var(--volt-bg);
+  color: var(--volt-ink);
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+img, svg { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--volt-amber);
+  color: #0a0f1a;
+  border-radius: 8px;
+  transition: top 0.2s var(--volt-ease);
+}
+.skip-to-content:focus { top: 1rem; }
+
+.main-content { position: relative; z-index: 2; }
+
+/* ---- MACRO-GEOMETRIC INDUSTRIAL TYPOGRAPHY --------------------------- */
+/* Strict framework: every h1–h3 is uppercase, tracked, and heavyweight.  */
+
+h1, h2, h3 {
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-weight: 800 !important;
+  line-height: 1.12;
+  margin: 0 0 0.6em;
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); }
+h2 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); }
+h3 { font-size: clamp(1.1rem, 2vw, 1.35rem); }
+
+/* Razor-sharp text-clipped gradient mask for core section titles:
+   diamond white → brushed platinum slate. */
+.volt-title {
+  background: linear-gradient(180deg, #ffffff 0%, #e8edf5 42%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ffffff; /* fallback for non-clipping engines */
+}
+
+.volt-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-bottom: 1.1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--volt-amber);
+}
+.volt-kicker::before {
+  content: '';
+  width: 2.2em;
+  height: 1px;
+  background: linear-gradient(90deg, var(--volt-amber), transparent);
+}
+
+.volt-lede {
+  max-width: 56ch;
+  color: var(--volt-ink-dim);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+}
+
+/* ---- NEON RAY ambient lighting layer --------------------------------- */
+
+.nr-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nr-orb {
+  position: absolute;
+  width: 44vmax;
+  height: 44vmax;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.12;
+  will-change: transform;
+}
+
+.nr-orb--amber {
+  top: -8vmax;
+  left: -10vmax;
+  background: radial-gradient(circle at 35% 35%, #fbbf24 0%, var(--volt-amber) 45%, transparent 72%);
+}
+
+.nr-orb--teal {
+  top: 30vh;
+  right: -14vmax;
+  background: radial-gradient(circle at 60% 40%, var(--volt-teal) 0%, var(--volt-blue) 55%, transparent 75%);
+}
+
+.volt-field {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ---- glass panels ----------------------------------------------------- */
+
+.volt-panel {
+  position: relative;
+  background: var(--volt-glass);
+  border: 1px solid var(--volt-hairline);
+  border-radius: var(--volt-radius);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  transition:
+    border-color 0.45s var(--volt-ease),
+    transform 0.45s var(--volt-ease),
+    box-shadow 0.45s var(--volt-ease);
+}
+
+.volt-panel:hover {
+  border-color: rgba(245, 158, 11, 0.35);
+  transform: translateY(-4px);
+  box-shadow:
+    0 24px 60px -30px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(245, 158, 11, 0.08) inset;
+}
+
+/* ---- section scaffold ------------------------------------------------- */
+
+.volt-section {
+  position: relative;
+  padding: clamp(4rem, 10vw, 7.5rem) var(--volt-gutter);
+}
+
+.volt-section__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* ---- scroll-reveal motion (driven by neon-ray.js) --------------------- */
+
+.js [data-volt-reveal] {
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 0.9s var(--volt-ease),
+    transform 0.9s var(--volt-ease);
+  transition-delay: calc(var(--volt-stagger, 0) * 90ms);
+}
+
+.js [data-volt-reveal].is-lit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- buttons ----------------------------------------------------------- */
+
+.volt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.95rem 2rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.35s var(--volt-ease),
+    box-shadow 0.35s var(--volt-ease),
+    background-color 0.35s var(--volt-ease);
+}
+
+.volt-btn--primary {
+  background: linear-gradient(135deg, #fbbf24, var(--volt-amber));
+  color: #1a1204;
+  box-shadow: 0 10px 30px -12px var(--volt-amber-soft);
+}
+
+.volt-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -12px rgba(245, 158, 11, 0.6);
+}
+
+.volt-btn--ghost {
+  background: transparent;
+  border-color: var(--volt-hairline);
+  color: var(--volt-ink);
+}
+
+.volt-btn--ghost:hover {
+  border-color: var(--volt-amber-soft);
+  color: #fff;
+}
+
+/* ---- TEXT FIELD GLOW REDESIGN ----------------------------------------- */
+/* Razor-thin silver hairline at rest; pulsing neon amber halo on focus.   */
+
+.volt-field-input {
+  width: 100%;
+  padding: 0.95rem 1.15rem;
+  background: rgba(10, 15, 26, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: var(--volt-ink);
+  font: inherit;
+  outline: none;
+  transition:
+    border-color 0.4s var(--volt-ease),
+    box-shadow 0.4s var(--volt-ease),
+    background-color 0.4s var(--volt-ease);
+}
+
+.volt-field-input::placeholder { color: rgba(148, 163, 184, 0.55); }
+
+.volt-field-input:focus {
+  border-color: var(--volt-amber);
+  background: rgba(15, 22, 38, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(245, 158, 11, 0.35),
+    0 0 22px -4px rgba(245, 158, 11, 0.45),
+    inset 0 0 14px -8px rgba(245, 158, 11, 0.55);
+  animation: volt-pulse 2.2s var(--volt-ease) infinite;
+}
+
+@keyframes volt-pulse {
+  0%, 100% { box-shadow:
+    0 0 0 1px rgba(245, 158, 11, 0.35),
+    0 0 22px -4px rgba(245, 158, 11, 0.45),
+    inset 0 0 14px -8px rgba(245, 158, 11, 0.55); }
+  50% { box-shadow:
+    0 0 0 1px rgba(245, 158, 11, 0.55),
+    0 0 34px -2px rgba(245, 158, 11, 0.6),
+    inset 0 0 20px -6px rgba(245, 158, 11, 0.7); }
+}
+
+/* ---- reduced motion ----------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js [data-volt-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .nr-orb { transform: none !important; }
+  .volt-field { display: none; }
+  .volt-field-input:focus { animation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,305 @@
+{%- comment -%}
+  Glass sticky header + slide-out drawer. Drawer links carry the magnetic
+  translateX(8px) glide and instant amber swap on hover, focus, and touch.
+{%- endcomment -%}
+
+<header class="eh-header">
+  <div class="eh-header__inner">
+    <a class="eh-logo" href="{{ routes.root_url }}">
+      <span class="eh-logo__bolt" aria-hidden="true">&#9889;</span>
+      {{ section.settings.logo_text | default: shop.name | escape }}
+    </a>
+
+    <nav class="eh-nav" aria-label="{{ 'sections.header.nav_label' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a class="eh-nav__link" href="{{ link.url }}">{{ link.title | escape }}</a>
+      {%- endfor -%}
+    </nav>
+
+    {%- if section.settings.phone != blank -%}
+      <a class="volt-btn volt-btn--primary eh-header__cta" href="tel:{{ section.settings.phone | remove: ' ' }}">
+        {{ section.settings.phone | escape }}
+      </a>
+    {%- endif -%}
+
+    <button
+      class="eh-burger"
+      type="button"
+      aria-expanded="false"
+      aria-controls="EhDrawer"
+      aria-label="{{ 'sections.header.open_menu' | t }}"
+      data-eh-burger
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="eh-scrim" data-eh-scrim hidden></div>
+
+<aside id="EhDrawer" class="eh-drawer" aria-label="{{ 'sections.header.nav_label' | t }}" data-eh-drawer>
+  <div class="eh-drawer__head">
+    <span class="eh-drawer__brand">{{ section.settings.logo_text | default: shop.name | escape }}</span>
+    <button class="eh-drawer__close" type="button" aria-label="{{ 'sections.header.close_menu' | t }}" data-eh-close>&times;</button>
+  </div>
+  <nav class="eh-drawer__nav">
+    {%- for link in section.settings.menu.links -%}
+      <a class="eh-drawer__link" href="{{ link.url }}" style="--volt-stagger: {{ forloop.index0 }};">
+        {{ link.title | escape }}
+      </a>
+    {%- endfor -%}
+  </nav>
+  {%- if section.settings.phone != blank -%}
+    <a class="volt-btn volt-btn--primary eh-drawer__cta" href="tel:{{ section.settings.phone | remove: ' ' }}">
+      {{ section.settings.phone | escape }}
+    </a>
+  {%- endif -%}
+</aside>
+
+{% style %}
+  .eh-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(10, 15, 26, 0.72);
+    border-bottom: 1px solid var(--volt-hairline);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .eh-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0.85rem var(--volt-gutter);
+  }
+
+  .eh-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 1.05rem;
+  }
+
+  .eh-logo__bolt { color: var(--volt-amber); }
+
+  .eh-nav {
+    display: none;
+    gap: 1.8rem;
+    margin-left: auto;
+  }
+
+  .eh-nav__link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--volt-ink-dim);
+    transition: color 0.3s var(--volt-ease);
+  }
+
+  .eh-nav__link:hover { color: var(--volt-amber); }
+
+  .eh-header__cta { display: none; padding: 0.6rem 1.3rem; }
+
+  .eh-burger {
+    margin-left: auto;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--volt-hairline);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .eh-burger span {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--volt-ink);
+    transition: transform 0.35s var(--volt-ease), opacity 0.35s var(--volt-ease);
+  }
+
+  .eh-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .eh-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .eh-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (min-width: 900px) {
+    .eh-nav { display: flex; }
+    .eh-header__cta { display: inline-flex; margin-left: 0; }
+    .eh-burger { display: none; }
+  }
+
+  .eh-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 48;
+    background: rgba(4, 7, 14, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.35s var(--volt-ease);
+  }
+
+  .eh-scrim.is-open { opacity: 1; }
+
+  .eh-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    width: min(84vw, 340px);
+    display: flex;
+    flex-direction: column;
+    padding: 1.4rem 1.6rem 2rem;
+    background: rgba(15, 22, 38, 0.92);
+    border-left: 1px solid var(--volt-hairline);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    transform: translateX(100%);
+    transition: transform 0.45s var(--volt-ease);
+    visibility: hidden;
+  }
+
+  .eh-drawer.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .eh-drawer__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .eh-drawer__brand {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+
+  .eh-drawer__close {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--volt-hairline);
+    border-radius: 10px;
+    color: var(--volt-ink);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .eh-drawer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  /* Magnetic glide: 8px horizontal offset + instant amber swap. The
+     touchstart hook in the script below makes taps fire this immediately,
+     without waiting for the synthetic hover. */
+  .eh-drawer__link {
+    padding: 0.85rem 0.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--volt-ink-dim);
+    transition: transform 0.3s var(--volt-ease), color 0.12s linear;
+  }
+
+  .eh-drawer__link:hover,
+  .eh-drawer__link:focus-visible,
+  .eh-drawer__link.is-charged {
+    transform: translateX(8px);
+    color: var(--volt-amber);
+  }
+{% endstyle %}
+
+<script>
+  (function () {
+    var burger = document.querySelector('[data-eh-burger]');
+    var drawer = document.querySelector('[data-eh-drawer]');
+    var scrim = document.querySelector('[data-eh-scrim]');
+    if (!burger || !drawer || !scrim) return;
+
+    function setOpen(open) {
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      drawer.classList.toggle('is-open', open);
+      scrim.hidden = !open;
+      // force a frame so the scrim opacity transition runs from 0
+      requestAnimationFrame(function () {
+        scrim.classList.toggle('is-open', open);
+      });
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    burger.addEventListener('click', function () {
+      setOpen(burger.getAttribute('aria-expanded') !== 'true');
+    });
+    scrim.addEventListener('click', function () { setOpen(false); });
+
+    var close = drawer.querySelector('[data-eh-close]');
+    if (close) close.addEventListener('click', function () { setOpen(false); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+
+    // Instant magnetic feedback at the touch coordinates — no 300ms hover wait.
+    drawer.querySelectorAll('.eh-drawer__link').forEach(function (link) {
+      link.addEventListener('touchstart', function () {
+        link.classList.add('is-charged');
+      }, { passive: true });
+      ['touchend', 'touchcancel'].forEach(function (evt) {
+        link.addEventListener(evt, function () {
+          setTimeout(function () { link.classList.remove('is-charged'); }, 250);
+        }, { passive: true });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Electrician header",
+  "class": "section-electrician-header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone number",
+      "default": "(555) 012-0480"
+    }
+  ]
+}
+{% endschema %}

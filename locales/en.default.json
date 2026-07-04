@@ -1,0 +1,37 @@
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content"
+  },
+  "sections": {
+    "header": {
+      "nav_label": "Main navigation",
+      "open_menu": "Open menu",
+      "close_menu": "Close menu"
+    },
+    "hero": {
+      "form_success": "Thanks — we'll be in touch within the hour.",
+      "form_name": "Name",
+      "form_name_placeholder": "Jordan Michaels",
+      "form_email": "Email",
+      "form_email_placeholder": "you@example.com",
+      "form_message": "What do you need?",
+      "form_message_placeholder": "Panel upgrade, EV charger, flickering lights…",
+      "form_submit": "Send request"
+    },
+    "services": {
+      "learn_more": "Learn more"
+    },
+    "footer": {
+      "nav_label": "Footer navigation",
+      "rights": "All rights reserved."
+    }
+  },
+  "templates": {
+    "404": {
+      "kicker": "Error 404",
+      "title": "Circuit not found",
+      "subtext": "The page you're looking for has been disconnected or never existed. Head back to the main panel.",
+      "cta": "Return home"
+    }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "sections": {
+    "hero": {
+      "type": "electrician-hero",
+      "blocks": {
+        "stat-years": {
+          "type": "stat",
+          "settings": {
+            "value": "25+",
+            "label": "Years in service"
+          }
+        },
+        "stat-rating": {
+          "type": "stat",
+          "settings": {
+            "value": "4.9",
+            "label": "Average rating"
+          }
+        },
+        "stat-jobs": {
+          "type": "stat",
+          "settings": {
+            "value": "12k",
+            "label": "Jobs completed"
+          }
+        }
+      },
+      "block_order": ["stat-years", "stat-rating", "stat-jobs"],
+      "settings": {
+        "kicker": "Licensed · Bonded · 24/7 Emergency",
+        "heading": "Power, engineered to perfection",
+        "subheading": "Master electricians delivering panel upgrades, EV charging, and whole-home rewiring with industrial-grade precision.",
+        "cta_label": "Get a free quote",
+        "secondary_label": "Explore services",
+        "form_heading": "Request service",
+        "form_note": "Response within one business hour."
+      }
+    },
+    "services": {
+      "type": "electrician-services",
+      "blocks": {
+        "svc-panels": {
+          "type": "service",
+          "settings": {
+            "icon": "🔌",
+            "title": "Panel upgrades",
+            "description": "200-amp modernization with load calculation, permit handling, and same-week inspection scheduling.",
+            "tag": "High demand",
+            "emphasis": "feature"
+          }
+        },
+        "svc-lighting": {
+          "type": "service",
+          "settings": {
+            "icon": "💡",
+            "title": "Lighting design",
+            "description": "Layered LED schemes, dimming ecosystems, and architectural accents.",
+            "emphasis": "standard"
+          }
+        },
+        "svc-safety": {
+          "type": "service",
+          "settings": {
+            "icon": "🛡️",
+            "title": "Safety inspections",
+            "description": "Thermal imaging, arc-fault auditing, and code-compliance reports.",
+            "emphasis": "tall"
+          }
+        },
+        "svc-ev": {
+          "type": "service",
+          "settings": {
+            "icon": "🚗",
+            "title": "EV charging stations",
+            "description": "Level 2 home chargers and commercial DC fast-charge infrastructure, sized for your service capacity.",
+            "tag": "Featured",
+            "emphasis": "wide"
+          }
+        },
+        "svc-rewiring": {
+          "type": "service",
+          "settings": {
+            "icon": "🏠",
+            "title": "Whole-home rewiring",
+            "description": "Knob-and-tube remediation with minimal wall disruption.",
+            "emphasis": "standard"
+          }
+        },
+        "svc-backup": {
+          "type": "service",
+          "settings": {
+            "icon": "🔋",
+            "title": "Backup power",
+            "description": "Standby generators and battery storage with automatic transfer.",
+            "emphasis": "wide"
+          }
+        },
+        "svc-emergency": {
+          "type": "service",
+          "settings": {
+            "icon": "🧰",
+            "title": "24/7 emergency",
+            "description": "Rapid-response crews on call every hour of the year.",
+            "emphasis": "standard"
+          }
+        }
+      },
+      "block_order": [
+        "svc-panels",
+        "svc-lighting",
+        "svc-safety",
+        "svc-ev",
+        "svc-rewiring",
+        "svc-backup",
+        "svc-emergency"
+      ],
+      "settings": {
+        "kicker": "Capabilities",
+        "heading": "Full-spectrum electrical work",
+        "subheading": "From service calls to full commercial fit-outs — engineered, inspected, and guaranteed."
+      }
+    },
+    "gallery": {
+      "type": "electrician-gallery",
+      "blocks": {
+        "tile-panel-room": {
+          "type": "tile",
+          "settings": { "caption": "Commercial panel room", "shape": "hero" }
+        },
+        "tile-ev": {
+          "type": "tile",
+          "settings": { "caption": "EV charger install", "shape": "square" }
+        },
+        "tile-landscape-lighting": {
+          "type": "tile",
+          "settings": { "caption": "Landscape lighting", "shape": "square" }
+        },
+        "tile-warehouse": {
+          "type": "tile",
+          "settings": { "caption": "Warehouse fit-out", "shape": "landscape" }
+        },
+        "tile-smart-home": {
+          "type": "tile",
+          "settings": { "caption": "Smart-home wiring", "shape": "portrait" }
+        },
+        "tile-generator": {
+          "type": "tile",
+          "settings": { "caption": "Generator transfer switch", "shape": "square" }
+        }
+      },
+      "block_order": [
+        "tile-panel-room",
+        "tile-ev",
+        "tile-landscape-lighting",
+        "tile-warehouse",
+        "tile-smart-home",
+        "tile-generator"
+      ],
+      "settings": {
+        "kicker": "Field work",
+        "heading": "Recent installations"
+      }
+    }
+  },
+  "order": ["hero", "services", "gallery"]
+}

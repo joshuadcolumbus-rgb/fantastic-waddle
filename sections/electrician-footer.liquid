@@ -1,0 +1,111 @@
+<footer class="eh-footer">
+  <div class="eh-footer__inner">
+    <div class="eh-footer__brand">
+      <span class="eh-footer__logo">
+        <span aria-hidden="true">&#9889;</span> {{ shop.name | escape }}
+      </span>
+      {%- if section.settings.tagline != blank -%}
+        <p class="eh-footer__tagline">{{ section.settings.tagline | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <nav class="eh-footer__nav" aria-label="{{ 'sections.footer.nav_label' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}">{{ link.title | escape }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <p class="eh-footer__legal">
+      &copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}.
+      {{ 'sections.footer.rights' | t }}
+      {%- if section.settings.license != blank %} &middot; {{ section.settings.license | escape }}{% endif -%}
+    </p>
+  </div>
+</footer>
+
+{% style %}
+  .eh-footer {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--volt-hairline);
+    background: rgba(10, 15, 26, 0.72);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .eh-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 3rem;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 2.4rem var(--volt-gutter);
+  }
+
+  .eh-footer__logo {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+  }
+
+  .eh-footer__logo span { color: var(--volt-amber); }
+
+  .eh-footer__tagline {
+    margin: 0.4rem 0 0;
+    font-size: 0.85rem;
+    color: var(--volt-ink-dim);
+  }
+
+  .eh-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+  }
+
+  .eh-footer__nav a {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--volt-ink-dim);
+    transition: color 0.3s var(--volt-ease);
+  }
+
+  .eh-footer__nav a:hover { color: var(--volt-amber); }
+
+  .eh-footer__legal {
+    margin: 0 0 0 auto;
+    font-size: 0.78rem;
+    color: var(--volt-ink-dim);
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Electrician footer",
+  "class": "section-electrician-footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Industrial-grade electrical, residential care."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer menu",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "license",
+      "label": "License number",
+      "default": "License #EC-048-2201"
+    }
+  ]
+}
+{% endschema %}
