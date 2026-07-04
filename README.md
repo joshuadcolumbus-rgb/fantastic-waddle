@@ -9,10 +9,18 @@ cards are rigid bodies you can grab and toss. Built for **Howard Air & Plumbing*
 
 ### Structure
 
-- `sections/howard-immersive.liquid` — the current homepage: immersive 3D scroll
-  experience (Three.js volumetric rings/core synced to scroll progress, rAF-lerp
-  smooth-scroll rig, IntersectionObserver + CSS reveal transitions, parallax
-  review cards, sticky nav CTA). Driven by the same unified `CFG` JSON.
+- `sections/howard-immersive.liquid` — the current homepage: hyper-immersive
+  scroll-driven 3D experience. Markup/CSS shells + unified `HWI_CFG` JSON; all
+  logic lives in `assets/hwi-bundle.js`, built from `src/hwi/app.jsx`
+  (`npm install && npm run build`).
+- `src/hwi/app.jsx` → `assets/hwi-bundle.js` — React Three Fiber scene (emissive
+  ring field, god-ray sun, particles) with a cinematic post chain (Bloom, GodRays
+  volumetric light, N8AO ambient occlusion, Vignette via postprocessing), GSAP
+  ScrollTrigger + Lenis scroll mechanics (scrubbed hero exit, batched reveals,
+  parallax review cards, camera dive tied to scroll progress). On mobile /
+  coarse pointers the background swaps to a 2.5D touch-parallax layer stack, and
+  a watchdog falls back to 2.5D if WebGL fails; `prefers-reduced-motion` gets a
+  static layout.
 - `sections/howard-physics.liquid` — the earlier physics playground (preserved,
   not referenced by the index template): unified `CFG` JSON
   (business info, theme colors, `physicsBounciness`, `gravityY`, reviews array),

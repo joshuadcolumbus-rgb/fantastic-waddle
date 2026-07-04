@@ -1,0 +1,19 @@
+{
+  "name": "howard-air-theme",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/hwi/app.jsx --bundle --minify --jsx=automatic --format=iife --define:process.env.NODE_ENV=\\\"production\\\" --outfile=assets/hwi-bundle.js"
+  },
+  "devDependencies": {
+    "@react-three/fiber": "8.17.10",
+    "@react-three/postprocessing": "2.16.3",
+    "esbuild": "0.24.2",
+    "gsap": "3.12.7",
+    "lenis": "1.1.18",
+    "n8ao": "1.9.4",
+    "postprocessing": "6.35.6",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "three": "0.152.2"
+  }
+}
