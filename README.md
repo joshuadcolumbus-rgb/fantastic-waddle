@@ -9,7 +9,12 @@ cards are rigid bodies you can grab and toss. Built for **Howard Air & Plumbing*
 
 ### Structure
 
-- `sections/howard-physics.liquid` — the entire experience: unified `CFG` JSON
+- `sections/howard-immersive.liquid` — the current homepage: immersive 3D scroll
+  experience (Three.js volumetric rings/core synced to scroll progress, rAF-lerp
+  smooth-scroll rig, IntersectionObserver + CSS reveal transitions, parallax
+  review cards, sticky nav CTA). Driven by the same unified `CFG` JSON.
+- `sections/howard-physics.liquid` — the earlier physics playground (preserved,
+  not referenced by the index template): unified `CFG` JSON
   (business info, theme colors, `physicsBounciness`, `gravityY`, reviews array),
   global CSS utility classes, and one DRY loop that maps every config entry and
   review to a Matter.js body. Matter.js loads from the jsDelivr CDN; no other

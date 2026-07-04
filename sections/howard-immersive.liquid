@@ -1,0 +1,266 @@
+{% comment %}
+  Howard Air & Plumbing — Immersive 3D Scroll Experience
+  Self-contained section layered onto theme 153246367918 (UNPUBLISHED).
+  Three.js volumetric background + rAF-lerp smooth scroll + scroll-driven reveals.
+{% endcomment %}
+
+<div id="hwi">
+  <canvas id="hwi-gl" aria-hidden="true"></canvas>
+
+  <header class="hwi-nav">
+    <span class="hwi-nav-brand"></span>
+    <span class="hwi-nav-links">
+      <a class="hwi-nav-phone" href="#"></a>
+      <a class="hwi-nav-cta" href="#"></a>
+    </span>
+  </header>
+
+  <div class="hwi-fix"><main class="hwi-content">
+    <section class="hwi-hero">
+      <p class="hwi-kicker rv"></p>
+      <h1 class="hwi-title rv"></h1>
+      <p class="hwi-tag rv"></p>
+      <p class="hwi-scrollhint rv">Scroll ↓</p>
+    </section>
+
+    <section class="hwi-services"></section>
+
+    <section class="hwi-reviews">
+      <h2 class="hwi-h2 rv">What the Valley says</h2>
+      <div class="hwi-grid"></div>
+    </section>
+
+    <section class="hwi-contact">
+      <h2 class="hwi-h2 rv">Comfort is one call away.</h2>
+      <div class="hwi-contact-row rv"></div>
+      <p class="hwi-area rv"></p>
+    </section>
+  </main></div>
+  <div class="hwi-space" aria-hidden="true"></div>
+</div>
+
+<style>
+  #hwi{--p:#FFD200;--ink:#f4f2ec;--bg:#0c0c0b;--mut:rgba(244,242,236,.62);
+    background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Arial,sans-serif;
+    width:100vw;margin-left:calc(50% - 50vw)}
+  #hwi-gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;
+    background:radial-gradient(80% 60% at 50% 30%,#181815,var(--bg))}
+  .hwi-fix{position:fixed;top:0;left:0;width:100%;z-index:2;will-change:transform}
+  .hwi-static .hwi-fix{position:static;transform:none!important}
+  .hwi-static .hwi-space{display:none}
+  .hwi-content{max-width:1080px;margin:0 auto;padding:0 6vw}
+  #hwi section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:14vh;padding-bottom:14vh;box-sizing:border-box}
+
+  /* sticky nav anchor */
+  .hwi-nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;
+    padding:16px 4vw;transition:background .4s,box-shadow .4s}
+  .hwi-nav.on{background:rgba(12,12,11,.82);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(255,210,0,.25)}
+  .hwi-nav-brand{font-weight:800;letter-spacing:.06em;font-size:15px;color:var(--p);text-transform:uppercase}
+  .hwi-nav-links{display:flex;gap:10px;align-items:center}
+  .hwi-nav-phone{color:var(--ink);text-decoration:none;font-weight:700;font-size:14px;opacity:.85}
+  .hwi-nav-phone:hover{opacity:1}
+  .hwi-nav-cta{background:var(--p);color:#111;text-decoration:none;font-weight:800;font-size:14px;
+    padding:10px 18px;border-radius:999px;transition:transform .25s,box-shadow .25s}
+  .hwi-nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,210,0,.35)}
+
+  /* editorial typography */
+  .hwi-kicker{font-size:13px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--p);margin:0 0 18px}
+  .hwi-title{font-size:clamp(44px,9vw,118px);line-height:.96;letter-spacing:-.03em;font-weight:800;margin:0}
+  .hwi-title em{font-style:normal;color:var(--p)}
+  .hwi-tag{font-size:clamp(16px,2vw,22px);color:var(--mut);max-width:34em;margin:26px 0 0}
+  .hwi-scrollhint{margin-top:9vh;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--mut)}
+  .hwi-h2{font-size:clamp(30px,5vw,58px);letter-spacing:-.02em;font-weight:800;margin:0 0 40px}
+
+  .hwi-svc{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:12px 4vw;align-items:baseline;
+    padding:34px 0;border-top:1px solid rgba(244,242,236,.14)}
+  .hwi-svc:last-child{border-bottom:1px solid rgba(244,242,236,.14)}
+  .hwi-svc h3{font-size:clamp(26px,4vw,44px);margin:0;font-weight:800;color:var(--p);letter-spacing:-.02em}
+  .hwi-svc p{margin:0;color:var(--mut);font-size:clamp(14px,1.6vw,18px);line-height:1.6}
+
+  .hwi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+  .hwi-card{background:rgba(24,24,21,.78);border:1px solid rgba(255,210,0,.16);border-radius:18px;
+    padding:26px;backdrop-filter:blur(6px);box-shadow:0 20px 50px rgba(0,0,0,.35);will-change:transform}
+  .hwi-card em{font-style:normal;color:var(--p);letter-spacing:3px;font-size:15px}
+  .hwi-card p{font-size:15px;line-height:1.65;color:var(--ink);margin:12px 0 14px}
+  .hwi-card b{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
+
+  .hwi-contact-row{display:flex;flex-wrap:wrap;gap:14px}
+  .hwi-contact-row a{text-decoration:none;font-weight:800;border-radius:999px;padding:16px 28px;font-size:16px;
+    transition:transform .25s}
+  .hwi-contact-row a:hover{transform:translateY(-3px)}
+  .hwi-contact-row .big{background:var(--p);color:#111;font-size:clamp(17px,2.4vw,24px)}
+  .hwi-contact-row .ghost{border:1.5px solid rgba(244,242,236,.4);color:var(--ink)}
+  .hwi-area{color:var(--mut);font-size:14px;line-height:1.7;max-width:44em;margin-top:30px}
+
+  /* scroll-driven reveals — pure CSS transitions, JS only toggles .in */
+  .rv{opacity:0;transform:translateY(46px) scale(.98);transition:opacity .9s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1);transition-delay:var(--d,0s)}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js" defer></script>
+<script>
+  (function () {
+    /* ---- UNIFIED CONFIGURATION & BRAND DATA ---- */
+    var CFG = {
+      "businessName": "Howard Air & Plumbing",
+      "businessType": "HVAC · Plumbing · Drain",
+      "tagline": "Comfort & Trust since 1977. Dispatching from Phoenix, AZ — live answering, open 24 hours.",
+      "contact": {
+        "phone": "(602) 428-4533",
+        "email": "serviceteam@howardair.com",
+        "ctaText": "Book Service 24/7"
+      },
+      "serviceArea": "Serving Anthem, Avondale, Buckeye, Cave Creek, Chandler, Fountain Hills, Gilbert, Glendale, Mesa, Paradise Valley, Peoria, Phoenix, Queen Creek, Scottsdale, Surprise & Tempe.",
+      "services": [
+        { "name": "Air", "desc": "Air conditioning, heating, furnaces, heat pumps, ductless mini-splits, air ducts & indoor air quality." },
+        { "name": "Plumbing", "desc": "Water heaters & tankless, kitchen & bath, sump & well pumps, water treatment, gas lines & general plumbing." },
+        { "name": "Drain", "desc": "Drain cleaning, sewer line and water line services — diagnosed with camera inspection, fixed fast." }
+      ],
+      "theme": { "primaryColor": "#FFD200", "accentColor": "#0c0c0b" },
+      "reviews": [
+        { "author": "Anne Grabois", "rating": 5, "text": "Jovanny is excellent!! The best technician ever! Very kind and knowledgeable!" },
+        { "author": "v.j. meenk", "rating": 5, "text": "All these years with Howard Air and not one technician has been negative. Chris L was kind & courteous." },
+        { "author": "Donna Graves", "rating": 5, "text": "Issac and Rigo were great. Thanks!" },
+        { "author": "Eric Miller", "rating": 5, "text": "I've relied on Howard Air for multiple properties over 15 years and highly recommend them." },
+        { "author": "Doug Oakley", "rating": 5, "text": "Isaac and Rigo are awesome great guy's. Thank you!" },
+        { "author": "Jake", "rating": 5, "text": "Replaced a water heater that failed and flooded a utility closet — Andrew responded fast." },
+        { "author": "M Evans", "rating": 5, "text": "Great experience with Gabriel! Our AC went out right before guests arrived — fixed in time." },
+        { "author": "Cynthia Layne", "rating": 5, "text": "Isaac and his colleague were professional and effective fixing our plumbing problem." }
+      ]
+    };
+
+    function init() {
+      var root = document.getElementById('hwi');
+      if (!root || root.dataset.hwiInit) return;
+      root.dataset.hwiInit = '1';
+
+      root.style.setProperty('--p', CFG.theme.primaryColor);
+      root.style.setProperty('--bg', CFG.theme.accentColor);
+      var tel = 'tel:' + CFG.contact.phone.replace(/\D/g, '');
+      var $ = function (s) { return root.querySelector(s); };
+
+      /* map config → DOM (single pass, no hardcoded blocks) */
+      $('.hwi-nav-brand').textContent = CFG.businessName;
+      $('.hwi-nav-phone').textContent = CFG.contact.phone; $('.hwi-nav-phone').href = tel;
+      $('.hwi-nav-cta').textContent = CFG.contact.ctaText; $('.hwi-nav-cta').href = tel;
+      $('.hwi-kicker').textContent = CFG.businessType + ' — since 1977';
+      $('.hwi-title').innerHTML = CFG.businessName.replace('&', '<em>&amp;</em>');
+      $('.hwi-tag').textContent = CFG.tagline;
+      $('.hwi-area').textContent = CFG.serviceArea;
+      $('.hwi-contact-row').innerHTML =
+        '<a class="big" href="' + tel + '">' + CFG.contact.ctaText + ' · ' + CFG.contact.phone + '</a>' +
+        '<a class="ghost" href="mailto:' + CFG.contact.email + '">' + CFG.contact.email + '</a>';
+      $('.hwi-services').innerHTML = CFG.services.map(function (s, i) {
+        return '<div class="hwi-svc rv" style="--d:' + i * 0.12 + 's"><h3>' + s.name + '</h3><p>' + s.desc + '</p></div>';
+      }).join('');
+      $('.hwi-grid').innerHTML = CFG.reviews.map(function (r, i) {
+        return '<article class="hwi-card rv" style="--d:' + (i % 3) * 0.12 + 's" data-speed="' + (0.04 + (i % 3) * 0.03) + '">' +
+          '<em>' + '★'.repeat(r.rating) + '</em><p>“' + r.text + '”</p><b>' + r.author + ' — Google</b></article>';
+      }).join('');
+
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var coarse = window.matchMedia('(pointer: coarse)').matches;
+      var fix = $('.hwi-fix'), space = $('.hwi-space'), nav = $('.hwi-nav');
+
+      /* reveal on intersect — CSS does the animation */
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.15 });
+      root.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+
+      /* smooth scroll rig: passive listener feeds target, rAF lerps */
+      var target = 0, cur = 0, docH = 0, vh = innerHeight;
+      var smoothOn = !reduced && !coarse;
+      function measure() {
+        vh = innerHeight;
+        if (smoothOn) { space.style.height = fix.scrollHeight + 'px'; }
+        docH = Math.max(1, document.documentElement.scrollHeight - vh);
+      }
+      if (!smoothOn) root.classList.add('hwi-static');
+      addEventListener('scroll', function () { target = scrollY; }, { passive: true });
+      addEventListener('resize', function () { measure(); }, { passive: true });
+
+      /* volumetric three.js background (boilerplate objects only) */
+      var three = null;
+      try {
+        if (window.THREE && !reduced) {
+          var T = window.THREE, cv = $('#hwi-gl');
+          var renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+          renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+          var scene = new T.Scene(); scene.fog = new T.FogExp2(0x0c0c0b, 0.045);
+          var cam = new T.PerspectiveCamera(52, 1, 0.1, 100); cam.position.set(0, 0, 16);
+          var mat = function (ei) {
+            return new T.MeshStandardMaterial({ color: 0x1c1c19, emissive: 0xFFD200, emissiveIntensity: ei, metalness: 0.65, roughness: 0.3 });
+          };
+          var rings = [6, 9.5, 13.5].map(function (r, i) {
+            var m = new T.Mesh(new T.TorusGeometry(r, 0.06 + i * 0.03, 16, 160), mat(0.55 - i * 0.12));
+            m.rotation.x = Math.PI / 2.15; m.position.y = -1 - i * 0.6; scene.add(m); return m;
+          });
+          var core = new T.Mesh(new T.SphereGeometry(2.1, 48, 48), mat(0.2));
+          core.position.set(5.5, 0, -7); scene.add(core);
+          var pg = new T.BufferGeometry(), pts = new Float32Array(900);
+          for (var i = 0; i < 900; i++) pts[i] = (Math.random() - 0.5) * 44;
+          pg.setAttribute('position', new T.BufferAttribute(pts, 3));
+          scene.add(new T.Points(pg, new T.PointsMaterial({ color: 0x86816e, size: 0.06, transparent: true, opacity: 0.7 })));
+          scene.add(new T.AmbientLight(0xffffff, 0.28));
+          var sun = new T.PointLight(0xFFD200, 1.1, 60); sun.position.set(0, 4, 8); scene.add(sun);
+          var key = new T.DirectionalLight(0xffffff, 0.35); key.position.set(-6, 8, 10); scene.add(key);
+          three = { renderer: renderer, scene: scene, cam: cam, rings: rings, core: core, sun: sun };
+          var sizeGL = function () {
+            renderer.setSize(innerWidth, innerHeight, false);
+            cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix();
+          };
+          sizeGL(); addEventListener('resize', sizeGL, { passive: true });
+        }
+      } catch (e) { three = null; }
+
+      /* single decoupled rAF loop: lerp scroll → transform, nav state, parallax, GL sync */
+      var cards = [].slice.call(root.querySelectorAll('[data-speed]'));
+      function frame(now) {
+        target = scrollY;
+        cur += (target - cur) * (smoothOn ? 0.085 : 1);
+        if (Math.abs(target - cur) < 0.05) cur = target;
+        if (smoothOn) fix.style.transform = 'translate3d(0,' + (-cur) + 'px,0)';
+        nav.classList.toggle('on', cur > 40);
+        var p = Math.min(1, cur / docH);
+        cards.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          el.style.transform = 'translate3d(0,' + ((r.top + r.height / 2 - vh / 2) * -el.dataset.speed) + 'px,0)';
+        });
+        if (three) {
+          var t = now * 0.00022;
+          three.cam.position.y = -p * 7;
+          three.cam.position.z = 16 - p * 4;
+          three.rings.forEach(function (m, i) {
+            m.rotation.z = t * (i % 2 ? -1 : 1) * (0.5 + i * 0.2);
+            m.rotation.x = Math.PI / 2.15 + Math.sin(t * 2 + i) * 0.06 + p * 0.5;
+            m.scale.setScalar(1 + Math.sin(t * 3 + i * 2) * 0.045 + p * 0.25 * (i + 1) * 0.3);
+            m.material.emissiveIntensity = 0.35 + p * 0.35 + Math.sin(t * 4 + i) * 0.08;
+          });
+          three.core.position.y = -p * 4 + Math.sin(t * 2.4) * 0.25;
+          three.core.material.emissiveIntensity = 0.15 + p * 0.35;
+          three.sun.intensity = 1 + p * 1.4;
+          three.renderer.render(three.scene, three.cam);
+          window.__hwiGL = true;
+        }
+        requestAnimationFrame(frame);
+      }
+      measure();
+      setTimeout(measure, 400); /* re-measure after fonts settle */
+      requestAnimationFrame(frame);
+    }
+
+    if (document.readyState === 'complete') init();
+    else window.addEventListener('load', init);
+    document.addEventListener('shopify:section:load', init);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Howard Immersive Scroll",
+  "class": "hwi-immersive-section",
+  "presets": [{ "name": "Howard Immersive Scroll" }]
+}
+{% endschema %}
