@@ -7,7 +7,7 @@
 {% endcomment %}
 
 <div id="hwi">
-  <div id="hwi-gl-host" aria-hidden="true"></div>
+  <div id="canvas-container" aria-hidden="true"></div>
   <div id="hwi-bg25" aria-hidden="true"></div>
 
   <header class="hwi-nav">
@@ -42,12 +42,13 @@
 </div>
 
 <style>
+  body{background:#0c0c0b}
   #hwi{--p:#FFD200;--ink:#f4f2ec;--bg:#0c0c0b;--mut:rgba(244,242,236,.62);
-    background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Arial,sans-serif;
+    background:transparent;color:var(--ink);font-family:"Helvetica Neue",Arial,sans-serif;
     width:100vw;margin-left:calc(50% - 50vw);position:relative}
-  #hwi-gl-host,#hwi-bg25{position:fixed;inset:0;z-index:0;overflow:hidden;
-    background:radial-gradient(80% 60% at 50% 30%,#181815,var(--bg))}
-  #hwi-gl-host canvas{display:block}
+  #canvas-container,#hwi-bg25{position:fixed;inset:0;z-index:-1;overflow:hidden;
+    background:radial-gradient(80% 60% at 50% 30%,#181815,#0c0c0b)}
+  #canvas-container canvas{display:block}
   #hwi-bg25:empty{display:none}
   .hwi-content{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 6vw}
   #hwi section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
@@ -142,7 +143,6 @@
     ]
   };
 </script>
-<script src="{{ 'hwi-bundle.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

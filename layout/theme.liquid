@@ -7,6 +7,8 @@
   <meta name="description" content="Howard Air & Plumbing — HVAC, drain and plumbing services in Phoenix, AZ. Comfort & Trust since 1977.">
   {{ content_for_header }}
   <style>html,body{margin:0;padding:0}</style>
+  {% comment %} compressed production bundle: React + ReactDOM + Three.js + R3F + postprocessing + GSAP/ScrollTrigger + Lenis {% endcomment %}
+  <script src="{{ 'hwi-bundle.js' | asset_url }}" defer></script>
 </head>
 <body>
   {{ content_for_layout }}
