@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": {
+      "type": "howard-physics"
+    }
+  },
+  "order": ["main"]
+}

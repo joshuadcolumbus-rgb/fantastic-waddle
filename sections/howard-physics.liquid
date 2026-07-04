@@ -1,0 +1,224 @@
+{% comment %}
+  Howard Air & Plumbing — Kinetic Physics Portfolio (Matter.js)
+  Self-contained section: all state lives in the CFG JSON block below.
+  Deploy only to an UNPUBLISHED development theme.
+{% endcomment %}
+
+<div id="hw-phys" class="hw-root">
+  <div class="hw-floor" aria-hidden="true"></div>
+  <button class="hw-toggle" type="button" aria-pressed="false">Read info</button>
+  <div class="hw-overlay" hidden></div>
+</div>
+
+<style>
+  .hw-root{position:relative;width:100vw;height:100vh;margin-left:calc(50% - 50vw);overflow:hidden;
+    background:var(--hw-bg,#f5f4f0);font-family:"Helvetica Neue",Arial,sans-serif;touch-action:none;
+    -webkit-user-select:none;user-select:none}
+  .hw-root::before{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--hw-grid) 1px,transparent 1px),linear-gradient(90deg,var(--hw-grid) 1px,transparent 1px);
+    background-size:56px 56px;opacity:.5}
+  .hw-floor{position:absolute;left:0;right:0;bottom:0;height:90px;border-top:2px solid var(--hw-accent);
+    background:repeating-linear-gradient(90deg,transparent 0 54px,var(--hw-grid) 54px 56px)}
+  .hw-item{position:absolute;left:0;top:0;will-change:transform;cursor:grab;box-sizing:border-box;
+    transition:box-shadow .18s,scale .18s}
+  .hw-item.hw-grab{cursor:grabbing;scale:1.06;box-shadow:0 14px 32px rgba(0,0,0,.28)!important;z-index:5}
+  .hw-item.hw-hit{outline:3px solid var(--hw-primary);outline-offset:2px}
+  .hw-brand{background:var(--hw-accent);color:var(--hw-primary);padding:18px 26px;border-radius:16px;
+    font-size:clamp(18px,2.4vw,30px);font-weight:800;letter-spacing:-.02em;text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.25)}
+  .hw-brand span{display:block;font-size:.45em;font-weight:600;color:#fff;letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+  .hw-pill{background:#fff;color:var(--hw-accent);border:2px solid var(--hw-accent);border-radius:999px;
+    padding:10px 20px;font-size:15px;font-weight:700;white-space:nowrap;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+  .hw-cta{background:var(--hw-primary);color:var(--hw-accent);border-radius:999px;padding:14px 26px;
+    font-size:17px;font-weight:800;white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,.22)}
+  .hw-card{background:var(--hw-accent);color:#fff;border-left:6px solid var(--hw-primary);border-radius:12px;
+    padding:12px 18px;font-size:14px;font-weight:700;white-space:nowrap;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+  .hw-review{background:#fff;border-radius:14px;padding:14px 16px;font-size:12.5px;line-height:1.4;
+    color:#333;box-shadow:0 2px 4px rgba(0,0,0,.08),0 8px 18px rgba(0,0,0,.1);border:1px solid #e6e4dd}
+  .hw-review em{font-style:normal;color:var(--hw-primary);font-size:14px;letter-spacing:2px;
+    text-shadow:0 0 1px var(--hw-accent);display:block;margin-bottom:4px}
+  .hw-review p{margin:0 0 6px}
+  .hw-review b{color:var(--hw-accent);font-size:11.5px}
+  .hw-toggle{position:absolute;top:18px;right:18px;z-index:10;background:var(--hw-accent);color:#fff;
+    border:0;border-radius:999px;padding:10px 18px;font:700 14px/1 inherit;cursor:pointer}
+  .hw-overlay[hidden]{display:none}
+  .hw-overlay{position:absolute;inset:0;z-index:9;display:grid;place-content:center;gap:14px;text-align:center;
+    background:color-mix(in srgb,var(--hw-bg) 88%,transparent);backdrop-filter:blur(4px)}
+  .hw-overlay h2{margin:0;font-size:clamp(26px,4vw,44px);color:var(--hw-accent)}
+  .hw-overlay p{margin:0;font-weight:600;color:#444}
+  .hw-overlay a{display:inline-block;margin:4px;padding:14px 26px;border-radius:999px;font-weight:800;
+    text-decoration:none;color:var(--hw-accent);border:2px solid var(--hw-accent)}
+  .hw-overlay a.hw-primary-link{background:var(--hw-primary);border-color:var(--hw-primary)}
+  .hw-static .hw-item{position:static;margin:8px;transform:none!important}
+  .hw-static{display:flex;flex-wrap:wrap;align-content:center;justify-content:center;padding:40px;height:auto;min-height:100vh}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js" defer></script>
+<script>
+  (function () {
+    /* ---- 1. UNIFIED CONFIGURATION & DATA STATE ---- */
+    var CFG = {
+      "businessName": "Howard Air & Plumbing",
+      "businessType": "HVAC · Plumbing · Drain — Comfort & Trust Since 1977",
+      "tagline": "Dispatching from Phoenix, AZ — Open 24 Hours",
+      "contact": {
+        "phone": "(602) 428-4533",
+        "email": "serviceteam@howardair.com",
+        "ctaText": "Book Service 24/7"
+      },
+      "serviceArea": "Serving the Valley: Phoenix · Scottsdale · Mesa · Tempe · Glendale +12 more",
+      "services": [
+        "Air Conditioning", "Heating & Furnace", "Heat Pumps & Mini-Splits",
+        "Water Heaters", "Drain & Sewer Lines", "Kitchen & Bath Plumbing"
+      ],
+      "theme": {
+        "primaryColor": "#FFD200",
+        "accentColor": "#111111",
+        "physicsBounciness": 0.4,
+        "gravityY": 1.0
+      },
+      "reviews": [
+        { "author": "Anne Grabois", "rating": 5, "text": "Jovanny is excellent!! The best technician ever! Very kind and knowledgeable!" },
+        { "author": "v.j. meenk", "rating": 5, "text": "All these years with Howard Air and not one technician has been negative. Chris L was kind & courteous." },
+        { "author": "Donna Graves", "rating": 5, "text": "Issac and Rigo were great. Thanks!" },
+        { "author": "Eric Miller", "rating": 5, "text": "I've relied on Howard Air for multiple properties over 15 years and highly recommend them." },
+        { "author": "Doug Oakley", "rating": 5, "text": "Isaac and Rigo are awesome great guy's. Thank you!" },
+        { "author": "Jake", "rating": 5, "text": "Replaced a water heater that failed and flooded a utility closet — Andrew responded fast." },
+        { "author": "M Evans", "rating": 5, "text": "Great experience with Gabriel! Our AC went out right before guests arrived — fixed in time." },
+        { "author": "Cynthia Layne", "rating": 5, "text": "Isaac and his colleague were professional and effective fixing our plumbing problem." }
+      ]
+    };
+
+    function init() {
+      var root = document.getElementById('hw-phys');
+      if (!root || root.dataset.hwInit || !window.Matter) return;
+      root.dataset.hwInit = '1';
+
+      /* color mapping from config */
+      root.style.setProperty('--hw-primary', CFG.theme.primaryColor);
+      root.style.setProperty('--hw-accent', CFG.theme.accentColor);
+      root.style.setProperty('--hw-grid', 'rgba(0,0,0,.07)');
+
+      /* readability overlay (static grid of critical info) */
+      var tel = 'tel:' + CFG.contact.phone.replace(/\D/g, '');
+      root.querySelector('.hw-overlay').innerHTML =
+        '<h2>' + CFG.businessName + '</h2><p>' + CFG.businessType + '</p><p>' + CFG.tagline + '</p>' +
+        '<div><a class="hw-primary-link" href="' + tel + '">' + CFG.contact.ctaText + ' · ' + CFG.contact.phone +
+        '</a><a href="mailto:' + CFG.contact.email + '">' + CFG.contact.email + '</a></div>' +
+        '<p>' + CFG.serviceArea + '</p>';
+      var toggle = root.querySelector('.hw-toggle'), overlay = root.querySelector('.hw-overlay');
+      toggle.addEventListener('click', function () {
+        overlay.hidden = !overlay.hidden;
+        toggle.textContent = overlay.hidden ? 'Read info' : 'Back to play';
+        toggle.setAttribute('aria-pressed', String(!overlay.hidden));
+      });
+      overlay.hidden = true;
+
+      /* ---- 2. DRY DOM → BODY MAPPING (one loop for everything) ---- */
+      var specs = [
+        { c: 'hw-brand', h: CFG.businessName + '<span>' + CFG.businessType + '</span>' },
+        { c: 'hw-pill', h: CFG.tagline },
+        { c: 'hw-pill', h: '📞 ' + CFG.contact.phone },
+        { c: 'hw-pill', h: '✉ ' + CFG.contact.email },
+        { c: 'hw-cta', h: CFG.contact.ctaText + ' →' },
+        { c: 'hw-pill', h: '📍 Phoenix, AZ · Valley-wide' }
+      ]
+        .concat(CFG.services.map(function (s) { return { c: 'hw-card', h: s }; }))
+        .concat(CFG.reviews.map(function (r) {
+          var t = r.text.length > 110 ? r.text.slice(0, 107) + '…' : r.text;
+          return {
+            c: 'hw-review', w: Math.max(190, Math.min(300, 130 + t.length * 1.5)),
+            h: '<em>' + '★'.repeat(r.rating) + '</em><p>' + t + '</p><b>— ' + r.author + '</b>'
+          };
+        }));
+
+      var M = window.Matter, W = root.clientWidth, H = root.clientHeight;
+
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) root.classList.add('hw-static');
+
+      var engine = M.Engine.create({ enableSleeping: true });
+      engine.gravity.y = CFG.theme.gravityY;
+      var items = specs.map(function (s, i) {
+        var el = document.createElement('div');
+        el.className = 'hw-item ' + s.c;
+        el.innerHTML = s.h;
+        if (s.w) el.style.width = s.w + 'px';
+        root.appendChild(el);
+        if (reduced) return null;
+        var w = el.offsetWidth, hgt = el.offsetHeight;
+        var body = M.Bodies.rectangle(
+          60 + Math.random() * Math.max(120, W - 120), -(i * 110 + Math.random() * 250), w, hgt,
+          { restitution: CFG.theme.physicsBounciness, friction: 0.3, chamfer: { radius: Math.min(16, hgt / 2) } }
+        );
+        body.plugin.hwEl = el;
+        M.Composite.add(engine.world, body);
+        return { el: el, b: body, hw: w / 2, hh: hgt / 2 };
+      });
+      if (reduced) return;
+
+      /* boundaries — rebuilt on resize so nothing escapes the frame */
+      var walls = [];
+      function buildWalls() {
+        W = root.clientWidth; H = root.clientHeight;
+        M.Composite.remove(engine.world, walls);
+        walls = [
+          M.Bodies.rectangle(W / 2, H - 90 + 100, W * 3, 200, { isStatic: true }),
+          M.Bodies.rectangle(-100, H / 2 - 1500, 200, H + 4000, { isStatic: true }),
+          M.Bodies.rectangle(W + 100, H / 2 - 1500, 200, H + 4000, { isStatic: true }),
+          M.Bodies.rectangle(W / 2, -2600, W * 3, 200, { isStatic: true })
+        ];
+        M.Composite.add(engine.world, walls);
+        items.forEach(function (it) {
+          M.Sleeping.set(it.b, false);
+          if (it.b.position.x > W - 20) M.Body.setPosition(it.b, { x: W - it.hw - 20, y: it.b.position.y });
+        });
+      }
+      buildWalls();
+      var rT; window.addEventListener('resize', function () { clearTimeout(rT); rT = setTimeout(buildWalls, 150); });
+
+      /* mouse constraint: grab & toss */
+      var mouse = M.Mouse.create(root);
+      var mc = M.MouseConstraint.create(engine, { mouse: mouse, constraint: { stiffness: 0.2, render: { visible: false } } });
+      M.Composite.add(engine.world, mc);
+      ['mousewheel', 'DOMMouseScroll', 'wheel'].forEach(function (ev) {
+        try { mouse.element.removeEventListener(ev, mouse.mousewheel); } catch (e) { }
+      });
+      M.Events.on(mc, 'startdrag', function (e) { if (e.body && e.body.plugin.hwEl) e.body.plugin.hwEl.classList.add('hw-grab'); });
+      M.Events.on(mc, 'enddrag', function (e) { if (e.body && e.body.plugin.hwEl) e.body.plugin.hwEl.classList.remove('hw-grab'); });
+
+      /* high-velocity collision flash */
+      M.Events.on(engine, 'collisionStart', function (e) {
+        e.pairs.forEach(function (p) {
+          [p.bodyA, p.bodyB].forEach(function (b) {
+            var el = b.plugin.hwEl;
+            if (el && b.speed > 8) { el.classList.add('hw-hit'); setTimeout(function () { el.classList.remove('hw-hit'); }, 280); }
+          });
+        });
+      });
+
+      M.Runner.run(M.Runner.create(), engine);
+
+      /* kinetic text alignment: engine x/y/theta → CSS transform */
+      (function sync() {
+        items.forEach(function (it) {
+          it.el.style.transform = 'translate(' + (it.b.position.x - it.hw) + 'px,' +
+            (it.b.position.y - it.hh) + 'px) rotate(' + it.b.angle + 'rad)';
+        });
+        requestAnimationFrame(sync);
+      })();
+    }
+
+    if (document.readyState === 'complete') init();
+    else window.addEventListener('load', init);
+    document.addEventListener('shopify:section:load', init);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Howard Physics Portfolio",
+  "class": "hw-physics-section",
+  "presets": [{ "name": "Howard Physics Portfolio" }]
+}
+{% endschema %}
