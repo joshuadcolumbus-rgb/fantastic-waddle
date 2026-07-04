@@ -2,24 +2,49 @@
   <div class="eh-footer__inner">
     <div class="eh-footer__brand">
       <span class="eh-footer__logo">
-        <span aria-hidden="true">&#9889;</span> {{ shop.name | escape }}
+        <span aria-hidden="true">&#9889;</span> {{ section.settings.brand_name | default: shop.name | escape }}
       </span>
       {%- if section.settings.tagline != blank -%}
         <p class="eh-footer__tagline">{{ section.settings.tagline | escape }}</p>
       {%- endif -%}
+
+      <ul class="eh-footer__contact">
+        {%- if section.settings.phone != blank -%}
+          <li>
+            <a href="tel:{{ section.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}">
+              {{ section.settings.phone | escape }}
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.email != blank -%}
+          <li><a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a></li>
+        {%- endif -%}
+        {%- if section.settings.location != blank -%}
+          <li>{{ section.settings.location | escape }}</li>
+        {%- endif -%}
+      </ul>
     </div>
 
+    {%- comment -%}
+      Service-provider utility matrix — fixed professional link set,
+      no retail e-commerce items (returns, shipping, etc.).
+    {%- endcomment -%}
     <nav class="eh-footer__nav" aria-label="{{ 'sections.footer.nav_label' | t }}">
-      {%- for link in section.settings.menu.links -%}
-        <a href="{{ link.url }}">{{ link.title | escape }}</a>
-      {%- endfor -%}
+      <a href="{{ section.settings.services_url | default: '/#services' }}">{{ 'sections.footer.link_services' | t }}</a>
+      <a href="{{ section.settings.about_url | default: '/#about-neil' }}">{{ 'sections.footer.link_about' | t }}</a>
+      <a href="{{ section.settings.privacy_url | default: '/policies/privacy-policy' }}">{{ 'sections.footer.link_privacy' | t }}</a>
+      <a href="{{ section.settings.contact_url | default: '/#quote' }}">{{ 'sections.footer.link_contact' | t }}</a>
     </nav>
 
-    <p class="eh-footer__legal">
-      &copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}.
-      {{ 'sections.footer.rights' | t }}
-      {%- if section.settings.license != blank %} &middot; {{ section.settings.license | escape }}{% endif -%}
-    </p>
+    <div class="eh-footer__meta">
+      {%- if section.settings.license != blank -%}
+        <p class="eh-footer__license">{{ section.settings.license | escape }}</p>
+      {%- endif -%}
+      <p class="eh-footer__legal">
+        &copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand_name | default: shop.name | escape }}.
+        {{ 'sections.footer.rights' | t }}
+      </p>
+    </div>
   </div>
 </footer>
 
@@ -36,11 +61,11 @@
   .eh-footer__inner {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 1.5rem 3rem;
+    align-items: flex-start;
+    gap: 2rem 3.5rem;
     max-width: 1240px;
     margin: 0 auto;
-    padding: 2.4rem var(--volt-gutter);
+    padding: 2.6rem var(--volt-gutter);
   }
 
   .eh-footer__logo {
@@ -58,10 +83,29 @@
     color: var(--volt-ink-dim);
   }
 
+  .eh-footer__contact {
+    list-style: none;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    color: var(--volt-ink-dim);
+  }
+
+  .eh-footer__contact a {
+    text-decoration: none;
+    color: var(--volt-ink);
+    transition: color 0.3s var(--volt-ease);
+  }
+
+  .eh-footer__contact a:hover { color: var(--volt-amber); }
+
   .eh-footer__nav {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1.4rem;
+    flex-direction: column;
+    gap: 0.8rem;
   }
 
   .eh-footer__nav a {
@@ -71,15 +115,33 @@
     text-transform: uppercase;
     text-decoration: none;
     color: var(--volt-ink-dim);
-    transition: color 0.3s var(--volt-ease);
+    transition: color 0.3s var(--volt-ease), transform 0.3s var(--volt-ease);
   }
 
-  .eh-footer__nav a:hover { color: var(--volt-amber); }
+  .eh-footer__nav a:hover {
+    color: var(--volt-amber);
+    transform: translateX(4px);
+  }
+
+  .eh-footer__meta { margin-left: auto; text-align: right; }
+
+  .eh-footer__license {
+    margin: 0 0 0.4rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--volt-amber);
+  }
 
   .eh-footer__legal {
-    margin: 0 0 0 auto;
+    margin: 0;
     font-size: 0.78rem;
     color: var(--volt-ink-dim);
+  }
+
+  @media (max-width: 700px) {
+    .eh-footer__meta { margin-left: 0; text-align: left; }
   }
 {% endstyle %}
 
@@ -90,21 +152,59 @@
   "settings": [
     {
       "type": "text",
-      "id": "tagline",
-      "label": "Tagline",
-      "default": "Industrial-grade electrical, residential care."
+      "id": "brand_name",
+      "label": "Brand name",
+      "default": "Sparks by Rabbit LLC"
     },
     {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Footer menu",
-      "default": "footer"
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Owner-operated residential electrical. Scottsdale, Arizona."
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Main service line",
+      "default": "(602) 784-6382"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Intake email",
+      "default": "sparksbyrabbit@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Primary service hub",
+      "default": "Scottsdale, Arizona"
     },
     {
       "type": "text",
       "id": "license",
-      "label": "License number",
-      "default": "License #EC-048-2201"
+      "label": "License line",
+      "default": "Licensed Electrical Contractor — ROC #350139"
+    },
+    {
+      "type": "url",
+      "id": "services_url",
+      "label": "Our Services link"
+    },
+    {
+      "type": "url",
+      "id": "about_url",
+      "label": "About Neil link"
+    },
+    {
+      "type": "url",
+      "id": "privacy_url",
+      "label": "Privacy Policy link"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Contact Us link"
     }
   ]
 }

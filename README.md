@@ -1,7 +1,9 @@
-# Volt — Electrician Theme
+# Volt — Sparks by Rabbit LLC
 
-A custom-engineered Shopify theme for an electrical contractor, built as a
-premium industrial SaaS-style dashboard rather than a generic template.
+A custom-engineered Shopify theme for Sparks by Rabbit LLC — an
+owner-operated residential electrical contractor in Scottsdale, Arizona
+(Licensed Electrical Contractor — ROC #350139) — built as a premium
+industrial SaaS-style dashboard rather than a generic template.
 
 ## Architecture
 

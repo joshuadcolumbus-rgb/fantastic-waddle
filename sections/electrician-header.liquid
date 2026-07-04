@@ -17,7 +17,7 @@
     </nav>
 
     {%- if section.settings.phone != blank -%}
-      <a class="volt-btn volt-btn--primary eh-header__cta" href="tel:{{ section.settings.phone | remove: ' ' }}">
+      <a class="volt-btn volt-btn--primary eh-header__cta" href="tel:{{ section.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}">
         {{ section.settings.phone | escape }}
       </a>
     {%- endif -%}
@@ -50,7 +50,7 @@
     {%- endfor -%}
   </nav>
   {%- if section.settings.phone != blank -%}
-    <a class="volt-btn volt-btn--primary eh-drawer__cta" href="tel:{{ section.settings.phone | remove: ' ' }}">
+    <a class="volt-btn volt-btn--primary eh-drawer__cta" href="tel:{{ section.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}">
       {{ section.settings.phone | escape }}
     </a>
   {%- endif -%}
@@ -286,7 +286,8 @@
     {
       "type": "text",
       "id": "logo_text",
-      "label": "Logo text"
+      "label": "Logo text",
+      "default": "Sparks by Rabbit LLC"
     },
     {
       "type": "link_list",
@@ -297,8 +298,8 @@
     {
       "type": "text",
       "id": "phone",
-      "label": "Phone number",
-      "default": "(555) 012-0480"
+      "label": "Main service line",
+      "default": "(602) 784-6382"
     }
   ]
 }

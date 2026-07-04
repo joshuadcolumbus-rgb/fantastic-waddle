@@ -56,6 +56,15 @@
     border-radius: var(--volt-radius);
     border: 1px solid var(--volt-hairline);
     background: var(--volt-glass);
+    box-shadow: 0 22px 50px -30px rgba(0, 0, 0, 0.8);
+    transition: border-color 0.45s var(--volt-ease), box-shadow 0.45s var(--volt-ease);
+  }
+
+  .eh-tile:hover {
+    border-color: rgba(245, 158, 11, 0.3);
+    box-shadow:
+      0 28px 60px -30px rgba(0, 0, 0, 0.85),
+      0 0 24px -10px rgba(245, 158, 11, 0.25);
   }
 
   .eh-tile--hero      { grid-column: span 2; grid-row: span 2; }

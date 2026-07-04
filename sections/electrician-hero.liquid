@@ -33,6 +33,19 @@
           </div>
         {%- endfor -%}
       </dl>
+
+      {%- comment -%}
+        Owner-operator value card: the key differentiator, on kinetic glass
+        with a micro-glare highlight that tracks pointer/tap coordinates
+        (script below sets --glare-x / --glare-y).
+      {%- endcomment -%}
+      {%- if section.settings.owner_heading != blank -%}
+        <div id="about-neil" class="eh-owner volt-glare" data-volt-reveal style="--volt-stagger: 3;" data-eh-glare>
+          <span class="eh-owner__badge">{{ 'sections.hero.owner_badge' | t }}</span>
+          <h3>{{ section.settings.owner_heading | escape }}</h3>
+          <p>{{ section.settings.owner_text | escape }}</p>
+        </div>
+      {%- endif -%}
     </div>
 
     <div id="quote" class="volt-panel eh-hero__form" data-volt-reveal style="--volt-stagger: 2;">
@@ -77,7 +90,7 @@
           placeholder="{{ 'sections.hero.form_message_placeholder' | t }}"
         ></textarea>
 
-        <button class="volt-btn volt-btn--primary eh-form__submit" type="submit">
+        <button class="volt-btn volt-btn--primary volt-btn--pulse eh-form__submit" type="submit">
           {{ 'sections.hero.form_submit' | t }}
         </button>
       {%- endform -%}
@@ -152,7 +165,58 @@
 
   .eh-form__success { color: #4ade80; font-size: 0.9rem; }
   .eh-form__error { color: #f87171; font-size: 0.9rem; }
+
+  .eh-owner {
+    margin-top: 2.6rem;
+    padding: clamp(1.3rem, 2.5vw, 1.8rem);
+    max-width: 560px;
+  }
+
+  .eh-owner h3 { margin-bottom: 0.4em; }
+
+  .eh-owner p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--volt-ink-dim);
+  }
+
+  .eh-owner__badge {
+    display: inline-block;
+    margin-bottom: 0.9rem;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--volt-amber-soft);
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--volt-amber);
+  }
 {% endstyle %}
+
+<script>
+  (function () {
+    // Micro-glare: radial highlight pinned to pointer / tap coordinates.
+    document.querySelectorAll('[data-eh-glare]').forEach(function (card) {
+      function aim(clientX, clientY) {
+        var rect = card.getBoundingClientRect();
+        card.style.setProperty('--glare-x', (clientX - rect.left) + 'px');
+        card.style.setProperty('--glare-y', (clientY - rect.top) + 'px');
+      }
+      card.addEventListener('pointermove', function (e) { aim(e.clientX, e.clientY); });
+      card.addEventListener('touchstart', function (e) {
+        var t = e.touches[0];
+        if (t) aim(t.clientX, t.clientY);
+        card.classList.add('is-glaring');
+      }, { passive: true });
+      ['touchend', 'touchcancel'].forEach(function (evt) {
+        card.addEventListener(evt, function () {
+          setTimeout(function () { card.classList.remove('is-glaring'); }, 350);
+        }, { passive: true });
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {
@@ -163,7 +227,7 @@
       "type": "text",
       "id": "kicker",
       "label": "Kicker",
-      "default": "Licensed &middot; Bonded &middot; 24/7 Emergency"
+      "default": "Scottsdale, Arizona · Licensed · Owner-Operated"
     },
     {
       "type": "text",
@@ -175,13 +239,13 @@
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Master electricians delivering panel upgrades, EV charging, and whole-home rewiring with industrial-grade precision."
+      "default": "Sparks by Rabbit LLC delivers panel upgrades, EV charging, and whole-home electrical work with industrial-grade precision — every job handled personally by the owner."
     },
     {
       "type": "text",
       "id": "cta_label",
       "label": "Primary button label",
-      "default": "Get a free quote"
+      "default": "Get free estimate today"
     },
     {
       "type": "url",
@@ -210,6 +274,18 @@
       "id": "form_note",
       "label": "Form note",
       "default": "Response within one business hour."
+    },
+    {
+      "type": "text",
+      "id": "owner_heading",
+      "label": "Owner card heading",
+      "default": "Neil is on every job"
+    },
+    {
+      "type": "textarea",
+      "id": "owner_text",
+      "label": "Owner card text",
+      "default": "Neil, the owner, personally completes every estimate and every job — no subcontractors, no random crews. The person who quotes your work is the person who does it."
     }
   ],
   "blocks": [

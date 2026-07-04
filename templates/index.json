@@ -3,11 +3,11 @@
     "hero": {
       "type": "electrician-hero",
       "blocks": {
-        "stat-years": {
+        "stat-owner": {
           "type": "stat",
           "settings": {
-            "value": "25+",
-            "label": "Years in service"
+            "value": "1",
+            "label": "Owner on every job"
           }
         },
         "stat-rating": {
@@ -17,23 +17,25 @@
             "label": "Average rating"
           }
         },
-        "stat-jobs": {
+        "stat-roc": {
           "type": "stat",
           "settings": {
-            "value": "12k",
-            "label": "Jobs completed"
+            "value": "ROC #350139",
+            "label": "Licensed contractor"
           }
         }
       },
-      "block_order": ["stat-years", "stat-rating", "stat-jobs"],
+      "block_order": ["stat-owner", "stat-rating", "stat-roc"],
       "settings": {
-        "kicker": "Licensed · Bonded · 24/7 Emergency",
+        "kicker": "Scottsdale, Arizona · Licensed · Owner-Operated",
         "heading": "Power, engineered to perfection",
-        "subheading": "Master electricians delivering panel upgrades, EV charging, and whole-home rewiring with industrial-grade precision.",
-        "cta_label": "Get a free quote",
+        "subheading": "Sparks by Rabbit LLC delivers panel upgrades, EV charging, and whole-home electrical work with industrial-grade precision — every job handled personally by the owner.",
+        "cta_label": "Get free estimate today",
         "secondary_label": "Explore services",
         "form_heading": "Request service",
-        "form_note": "Response within one business hour."
+        "form_note": "Response within one business hour.",
+        "owner_heading": "Neil is on every job",
+        "owner_text": "Neil, the owner, personally completes every estimate and every job — no subcontractors, no random crews. The person who quotes your work is the person who does it."
       }
     },
     "services": {
@@ -43,81 +45,71 @@
           "type": "service",
           "settings": {
             "icon": "🔌",
-            "title": "Panel upgrades",
-            "description": "200-amp modernization with load calculation, permit handling, and same-week inspection scheduling.",
-            "tag": "High demand",
+            "title": "Electrical Panel Upgrades",
+            "description": "100A to 200A service upgrades and subpanel installations with load calculation, permit handling, and inspection scheduling.",
+            "tag": "HIGH DEMAND",
             "emphasis": "feature"
-          }
-        },
-        "svc-lighting": {
-          "type": "service",
-          "settings": {
-            "icon": "💡",
-            "title": "Lighting design",
-            "description": "Layered LED schemes, dimming ecosystems, and architectural accents.",
-            "emphasis": "standard"
-          }
-        },
-        "svc-safety": {
-          "type": "service",
-          "settings": {
-            "icon": "🛡️",
-            "title": "Safety inspections",
-            "description": "Thermal imaging, arc-fault auditing, and code-compliance reports.",
-            "emphasis": "tall"
           }
         },
         "svc-ev": {
           "type": "service",
           "settings": {
             "icon": "🚗",
-            "title": "EV charging stations",
-            "description": "Level 2 home chargers and commercial DC fast-charge infrastructure, sized for your service capacity.",
-            "tag": "Featured",
+            "title": "EV Charger Installations",
+            "description": "Level 2 home charging infrastructure, sized to your panel capacity and mounted where you actually park.",
+            "tag": "FEATURED",
             "emphasis": "wide"
           }
         },
-        "svc-rewiring": {
+        "svc-aluminum": {
+          "type": "service",
+          "settings": {
+            "icon": "🛡️",
+            "title": "Aluminum Wiring Remediation",
+            "description": "Safe corrections for 1970s and 1980s aluminum branch circuits — proper connectors, not quick fixes.",
+            "emphasis": "tall"
+          }
+        },
+        "svc-smart-home": {
           "type": "service",
           "settings": {
             "icon": "🏠",
-            "title": "Whole-home rewiring",
-            "description": "Knob-and-tube remediation with minimal wall disruption.",
+            "title": "Smart Home Automation",
+            "description": "Smart dimmers, switches, and whole-home integration that just works.",
             "emphasis": "standard"
           }
         },
-        "svc-backup": {
-          "type": "service",
-          "settings": {
-            "icon": "🔋",
-            "title": "Backup power",
-            "description": "Standby generators and battery storage with automatic transfer.",
-            "emphasis": "wide"
-          }
-        },
-        "svc-emergency": {
+        "svc-troubleshooting": {
           "type": "service",
           "settings": {
             "icon": "🧰",
-            "title": "24/7 emergency",
-            "description": "Rapid-response crews on call every hour of the year.",
+            "title": "Troubleshooting & Faulty Wiring Repairs",
+            "description": "Dead outlets, tripping breakers, flickering lights — diagnosed and repaired at the source.",
             "emphasis": "standard"
+          }
+        },
+        "svc-lighting": {
+          "type": "service",
+          "settings": {
+            "icon": "💡",
+            "title": "Lighting Design & Installations",
+            "description": "Recessed lighting, outdoor fixtures, and landscape ambiance designed around how you live.",
+            "emphasis": "wide"
           }
         }
       },
       "block_order": [
         "svc-panels",
-        "svc-lighting",
-        "svc-safety",
         "svc-ev",
-        "svc-rewiring",
-        "svc-backup",
-        "svc-emergency"
+        "svc-aluminum",
+        "svc-smart-home",
+        "svc-troubleshooting",
+        "svc-lighting"
       ],
       "settings": {
         "kicker": "Capabilities",
-        "heading": "Full-spectrum electrical work",
-        "subheading": "From service calls to full commercial fit-outs — engineered, inspected, and guaranteed."
+        "heading": "Residential electrical, done right",
+        "subheading": "Specialized high-end residential work across the Scottsdale area — engineered, inspected, and guaranteed."
       }
     },
     "gallery": {
@@ -125,36 +117,36 @@
       "blocks": {
         "tile-panel-room": {
           "type": "tile",
-          "settings": { "caption": "Commercial panel room", "shape": "hero" }
+          "settings": { "caption": "200A panel upgrade", "shape": "hero" }
         },
         "tile-ev": {
           "type": "tile",
-          "settings": { "caption": "EV charger install", "shape": "square" }
+          "settings": { "caption": "Level 2 EV charger install", "shape": "square" }
         },
         "tile-landscape-lighting": {
           "type": "tile",
           "settings": { "caption": "Landscape lighting", "shape": "square" }
         },
-        "tile-warehouse": {
+        "tile-recessed": {
           "type": "tile",
-          "settings": { "caption": "Warehouse fit-out", "shape": "landscape" }
+          "settings": { "caption": "Recessed lighting layout", "shape": "landscape" }
         },
         "tile-smart-home": {
           "type": "tile",
           "settings": { "caption": "Smart-home wiring", "shape": "portrait" }
         },
-        "tile-generator": {
+        "tile-remediation": {
           "type": "tile",
-          "settings": { "caption": "Generator transfer switch", "shape": "square" }
+          "settings": { "caption": "Aluminum wiring remediation", "shape": "square" }
         }
       },
       "block_order": [
         "tile-panel-room",
         "tile-ev",
         "tile-landscape-lighting",
-        "tile-warehouse",
+        "tile-recessed",
         "tile-smart-home",
-        "tile-generator"
+        "tile-remediation"
       ],
       "settings": {
         "kicker": "Field work",
