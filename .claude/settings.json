@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --yes @shopify/theme-check-node -- .)",
+      "Bash(node scripts/search_docs.mjs \"color_scheme setting resource object settings background text properties\" --model claude-sonnet-5 --client-name claude-code --client-version 1.0)",
+      "Bash(node scripts/search_docs.mjs \"color_brightness filter usage example\" --model claude-sonnet-5 --client-name claude-code --client-version 1.0)",
+      "Skill(shopify-plugin:shopify-use-shopify-cli)",
+      "Skill(shopify-plugin:shopify-use-shopify-cli:*)",
+      "Bash(shopify help *)",
+      "Bash(SHOPIFY_CLI_AGENT_INFO=\"n:claude-code|v:1.0|p:anthropic|m:claude-sonnet-5\" SHOPIFY_CLI_AGENT_IDS=\"s:none|r:none|i:none\" shopify theme list --store Dnuvu9-11.myshopify.com)",
+      "Bash(SHOPIFY_CLI_AGENT_INFO=\"n:claude-code|v:1.0|p:anthropic|m:claude-sonnet-5\" SHOPIFY_CLI_AGENT_IDS=\"s:none|r:none|i:none\" shopify theme push --store Dnuvu9-11.myshopify.com --theme 153231720622)"
+    ]
+  }
+}
