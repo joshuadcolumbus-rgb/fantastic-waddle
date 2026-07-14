@@ -18,8 +18,8 @@ void main() {
   // Root→tip gradient with per-blade jitter and dry warm patches driven by
   // a large-scale world hash, echoing a real meadow's color drift.
   vec3 color = mix(uBaseColor, uTipColor, smoothstep(0.05, 0.95, vHeight));
-  float patch = fract(sin(dot(floor(vWorldPos.xz * 0.22), vec2(127.1, 311.7))) * 43758.5453);
-  color = mix(color, uDryColor, patch * 0.28 * vHeight);
+  float dryness = fract(sin(dot(floor(vWorldPos.xz * 0.22), vec2(127.1, 311.7))) * 43758.5453);
+  color = mix(color, uDryColor, dryness * 0.16 * vHeight);
   color *= 0.92 + vJitter * 0.16;
 
   // Fake occlusion at the root, sun wrap at the tip.

@@ -22,7 +22,7 @@ import {
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { useQualityTier } from '@/hooks/useQualityTier';
 import { useSceneEnv } from '@/hooks/useSceneEnv';
-import { getWorldMask, isPlantable, terrainHeight } from '@/scenes/environment/world';
+import { distanceToPath, getWorldMask, isPlantable, terrainHeight } from '@/scenes/environment/world';
 import { mulberry32 } from '@/utils/math';
 import flowerFrag from '@/shaders/flower.frag.glsl';
 import flowerVert from '@/shaders/flower.vert.glsl';
@@ -48,6 +48,12 @@ function paintVertexColors(geo: BufferGeometry, color: Color, jitter: number, rn
     colors[i * 3 + 2] = color.b * v;
   }
   geo.setAttribute('color', new BufferAttribute(colors, 3));
+}
+
+/** mergeGeometries requires uniform indexing — normalize to non-indexed. */
+function mergeParts(parts: BufferGeometry[]): BufferGeometry {
+  const normalized = parts.map((g) => (g.index ? g.toNonIndexed() : g));
+  return mergeGeometries(normalized) ?? normalized[0]!;
 }
 
 function jitterVertices(geo: BufferGeometry, amount: number, rng: () => number): void {
@@ -79,7 +85,7 @@ function canopyTree(rng: () => number): BufferGeometry {
     paintVertexColors(lobe, new Color(greens[i % 3]), 0.3, rng);
     lobes.push(lobe);
   }
-  return mergeGeometries([trunk, ...lobes]) ?? trunk;
+  return mergeParts([trunk, ...lobes]);
 }
 
 /** Column cypress: three stacked, jittered cones. */
@@ -96,7 +102,7 @@ function cypress(rng: () => number): BufferGeometry {
     paintVertexColors(cone, new Color(i % 2 ? '#2c4f28' : '#35592e'), 0.22, rng);
     parts.push(cone);
   }
-  return mergeGeometries(parts) ?? parts[0]!;
+  return mergeParts(parts);
 }
 
 /** Clipped ornamental shrub. */
@@ -115,6 +121,7 @@ function placeInstances(
   minDist: number,
   maxDist: number,
   scaleRange: [number, number],
+  pathClearance = 6,
 ): Placement {
   const mask = getWorldMask();
   const matrices: Matrix4[] = [];
@@ -129,6 +136,8 @@ function placeInstances(
     const side = rng() > 0.5 ? 1 : -1;
     const x = side * (minDist + rng() * (maxDist - minDist)) + (rng() - 0.5) * 4;
     if (!isPlantable(x, z, mask)) continue;
+    // The camera drifts ±4.5 around the walk — keep canopies out of the lens.
+    if (distanceToPath(x, z) < pathClearance) continue;
     const y = terrainHeight(x, z, mask);
     pos.set(x, y - 0.05, z);
     const s = scaleRange[0] + rng() * (scaleRange[1] - scaleRange[0]);
@@ -176,13 +185,14 @@ interface TreeLayerProps {
   maxDist: number;
   scaleRange: [number, number];
   material: MeshStandardMaterial;
+  pathClearance?: number;
 }
 
-function TreeLayer({ build, seed, count, minDist, maxDist, scaleRange, material }: TreeLayerProps) {
+function TreeLayer({ build, seed, count, minDist, maxDist, scaleRange, material, pathClearance }: TreeLayerProps) {
   const mesh = useMemo(() => {
     const rng = mulberry32(seed);
     const geometry = build(rng);
-    const { matrices } = placeInstances(count, rng, minDist, maxDist, scaleRange);
+    const { matrices } = placeInstances(count, rng, minDist, maxDist, scaleRange, pathClearance);
     const instanced = new InstancedMesh(geometry, material, matrices.length);
     matrices.forEach((m, i) => instanced.setMatrixAt(i, m));
     instanced.instanceMatrix.needsUpdate = true;
@@ -190,7 +200,7 @@ function TreeLayer({ build, seed, count, minDist, maxDist, scaleRange, material 
     instanced.receiveShadow = false;
     instanced.frustumCulled = false; // spans the full corridor; cheap either way
     return instanced;
-  }, [build, seed, count, minDist, maxDist, scaleRange, material]);
+  }, [build, seed, count, minDist, maxDist, scaleRange, material, pathClearance]);
 
   return <primitive object={mesh} />;
 }
@@ -289,9 +299,9 @@ export function Flora(): React.JSX.Element {
   const trees = budget.treeInstances;
   return (
     <group>
-      <TreeLayer build={canopyTree} seed={101} count={Math.round(trees * 0.42)} minDist={7} maxDist={26} scaleRange={[1.1, 2.3]} material={foliageMaterial} />
-      <TreeLayer build={cypress} seed={202} count={Math.round(trees * 0.26)} minDist={5} maxDist={20} scaleRange={[0.9, 1.7]} material={foliageMaterial} />
-      <TreeLayer build={shrub} seed={303} count={Math.round(trees * 0.32)} minDist={2.5} maxDist={12} scaleRange={[0.8, 1.6]} material={foliageMaterial} />
+      <TreeLayer build={canopyTree} seed={101} count={Math.round(trees * 0.42)} minDist={9} maxDist={28} scaleRange={[1.1, 2.3]} material={foliageMaterial} />
+      <TreeLayer build={cypress} seed={202} count={Math.round(trees * 0.26)} minDist={7} maxDist={22} scaleRange={[0.9, 1.7]} material={foliageMaterial} />
+      <TreeLayer build={shrub} seed={303} count={Math.round(trees * 0.32)} minDist={3.5} maxDist={13} scaleRange={[0.8, 1.6]} material={foliageMaterial} pathClearance={3.2} />
       <Flowers count={budget.flowerInstances} />
     </group>
   );

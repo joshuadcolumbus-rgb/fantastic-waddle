@@ -6,6 +6,21 @@
   padding-block: clamp(7rem, 18vh, 12rem) var(--space-5);
 }
 
+/* Soft radial scrim keeps the headline AA-legible over the palest dawn sky. */
+.ts-hero .ts-container {
+  position: relative;
+}
+
+.ts-hero .ts-container::before {
+  content: '';
+  position: absolute;
+  inset: -22% -16%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(10, 14, 8, 0.38), transparent 100%);
+  filter: blur(10px);
+  pointer-events: none;
+}
+
 .ts-hero__headline {
   font-size: var(--fs-hero);
   max-width: 10.5em;
@@ -44,6 +59,13 @@
   width: 1px;
   height: 3.2rem;
   background: linear-gradient(to bottom, var(--c-gold), transparent);
+}
+
+/* Stacked CTAs need the room on small screens — the gesture teaches itself. */
+@media (max-width: 640px), (max-height: 620px) {
+  .ts-hero__hint {
+    display: none;
+  }
 }
 
 /* ---------- generic chapter (about / services / commercial) ---------- */

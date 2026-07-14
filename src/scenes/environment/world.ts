@@ -160,6 +160,20 @@ export function terrainHeight(x: number, z: number, mask: WorldMask = getWorldMa
   return h;
 }
 
+/** Horizontal distance to the camera walk — used to keep tall flora clear. */
+let pathSamples: Vector3[] | null = null;
+export function distanceToPath(x: number, z: number): number {
+  if (!pathSamples) pathSamples = groundPath.getPoints(220);
+  let min = Infinity;
+  for (const p of pathSamples) {
+    const dx = p.x - x;
+    const dz = p.z - z;
+    const d = dx * dx + dz * dz;
+    if (d < min) min = d;
+  }
+  return Math.sqrt(min);
+}
+
 /** True where flora may grow (off the path, out of the water, clear of builds). */
 export function isPlantable(x: number, z: number, mask: WorldMask = getWorldMask()): boolean {
   if (x < WORLD.minX + 4 || x > WORLD.maxX - 4 || z < WORLD.minZ + 4 || z > WORLD.maxZ - 4) return false;

@@ -47,11 +47,13 @@ void main() {
 
   // Sun / moon glint streak.
   float glint = pow(clamp(dot(reflected, normalize(uSunDir)), 0.0, 1.0), 240.0);
-  vec3 color = mix(uWaterColor, skyRefl, clamp(fresnel * 0.85 + 0.12, 0.0, 1.0));
+  // Keep the water reading as water: cap the sky's share so grazing angles
+  // don't wash the surface out to white under a bright day sky.
+  vec3 color = mix(uWaterColor, skyRefl * 0.82, clamp(fresnel * 0.55 + 0.1, 0.0, 0.62));
   color += uSunColor * glint * uGlint * 2.2;
 
-  // Soft shore fade using the disc UV radius.
-  float shore = smoothstep(1.0, 0.82, length(vUv - 0.5) * 2.0);
+  // Shore fade — tight, so the edge reads as a bank, not a mist.
+  float shore = smoothstep(1.0, 0.93, length(vUv - 0.5) * 2.0);
 
   color *= uExposure;
   float depth = gl_FragCoord.z / gl_FragCoord.w;

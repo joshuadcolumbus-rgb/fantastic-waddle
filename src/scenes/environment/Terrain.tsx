@@ -67,6 +67,14 @@ export function Terrain(): React.JSX.Element {
           uniform float uSunWarm;
           float tsHash(vec2 p) {
             return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+          }
+          // Smooth value noise — the meadow must drift, not tile.
+          float tsNoise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(mix(tsHash(i), tsHash(i + vec2(1.0, 0.0)), u.x),
+                       mix(tsHash(i + vec2(0.0, 1.0)), tsHash(i + vec2(1.0, 1.0)), u.x), u.y);
           }`,
         )
         .replace(
@@ -74,10 +82,10 @@ export function Terrain(): React.JSX.Element {
           /* glsl */ `#include <color_fragment>
           {
             vec3 mask = texture2D(uMask, vUv).rgb;
-            // Meadow: two greens drifting at landscape scale + dry patches.
-            float drift = tsHash(floor(vUv * 90.0)) * 0.5 + tsHash(floor(vUv * 22.0)) * 0.5;
-            vec3 meadow = mix(vec3(0.28, 0.42, 0.23), vec3(0.38, 0.53, 0.28), drift);
-            meadow = mix(meadow, vec3(0.52, 0.5, 0.32), smoothstep(0.72, 0.95, drift) * 0.5);
+            // Meadow: two greens drifting smoothly at landscape scale.
+            float drift = tsNoise(vUv * 34.0) * 0.6 + tsNoise(vUv * 9.0) * 0.4;
+            vec3 meadow = mix(vec3(0.3, 0.44, 0.24), vec3(0.37, 0.51, 0.28), drift);
+            meadow = mix(meadow, vec3(0.46, 0.47, 0.3), smoothstep(0.68, 0.98, drift) * 0.35);
             meadow *= 0.95 + uSunWarm * 0.1;
             // Stone walk: warm pavers with grout variation.
             float cobble = tsHash(floor(vUv * 260.0));

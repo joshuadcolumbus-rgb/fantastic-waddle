@@ -16,8 +16,8 @@
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- comment -%} Self-hosted variable fonts — preloaded, no external requests. {%- endcomment -%}
-    <link rel="preload" href="{{ 'font-fraunces-var.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ 'font-inter-var.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+    {{ 'font-fraunces-var.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {{ 'font-inter-var.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
     <style>
       @font-face {
         font-family: 'Fraunces Variable';
