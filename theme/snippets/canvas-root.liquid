@@ -1,0 +1,10 @@
+{%- comment -%}
+  The immersive layer: one fixed canvas host behind all content, the loading
+  veil that the intro dissolves, and the static premium fallback backdrop
+  used for reduced-motion / failed-WebGL / merchant-disabled visitors.
+  app.js decides which of these actually activates — content never depends
+  on any of them.
+{%- endcomment -%}
+<div class="ts-fallback" aria-hidden="true"></div>
+<div id="ts-canvas-root" class="ts-canvas" aria-hidden="true"></div>
+<div class="ts-veil" aria-hidden="true"></div>

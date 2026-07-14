@@ -1,0 +1,107 @@
+<section
+  class="ts-section ts-chapter"
+  {% render 'scene-anchor', beat: section.settings.beat, type: 'about' %}
+>
+  <div class="ts-container">
+    <div class="ts-chapter__grid">
+      <div class="ts-chapter__copy">
+        <div class="ts-glass">
+          {% render 'section-heading',
+            eyebrow: section.settings.eyebrow,
+            title: section.settings.title,
+            lede: section.settings.lede
+          %}
+          {%- if section.settings.body != blank -%}
+            <div data-reveal="fade">{{ section.settings.body }}</div>
+          {%- endif -%}
+
+          {%- if section.blocks.size > 0 -%}
+            <div class="ts-chapter__stats" data-stagger>
+              {% content_for 'blocks' %}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="ts-chapter__media" data-reveal="mask" data-parallax="0.12">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600, 900, 1200', alt: section.settings.image.alt | default: section.settings.title }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'ts-placeholder' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About",
+  "tag": "div",
+  "blocks": [{ "type": "stat" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The studio"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Craft rooted in the land"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede",
+      "default": "For two decades we have shaped grounds that hold their beauty in every season — gardens that greet the dawn and glow at dusk."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Our designers, horticulturists and master builders work as one studio. Every commission begins with the land itself: its light, its slope, its stone, its water.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "beat",
+      "label": "Scene mood",
+      "info": "Where this chapter sits in the dawn-to-night journey behind the content.",
+      "options": [
+        { "value": "dawn-garden", "label": "Dawn garden" },
+        { "value": "morning-meadow", "label": "Morning meadow" },
+        { "value": "stone-path", "label": "Stone path" },
+        { "value": "pergola-court", "label": "Pergola court" },
+        { "value": "water-garden", "label": "Water garden" },
+        { "value": "emerald-lawn", "label": "Emerald lawn" },
+        { "value": "dusk-glow", "label": "Dusk glow" },
+        { "value": "stone-twilight", "label": "Stone twilight" },
+        { "value": "estate-blue", "label": "Estate blue hour" },
+        { "value": "twilight-gallery", "label": "Twilight gallery" },
+        { "value": "firefly-night", "label": "Firefly night" },
+        { "value": "moonlit-path", "label": "Moonlit path" },
+        { "value": "lantern-walk", "label": "Lantern walk" },
+        { "value": "still-water", "label": "Still water night" }
+      ],
+      "default": "morning-meadow"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "20+", "label": "Years of craft" } },
+        { "type": "stat", "settings": { "value": "340", "label": "Gardens composed" } },
+        { "type": "stat", "settings": { "value": "12", "label": "Design awards" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

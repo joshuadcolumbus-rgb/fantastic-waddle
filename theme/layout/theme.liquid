@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" data-webgl="idle">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0c120a">
+
+    <title>
+      {{ page_title }}
+      {%- if current_page != 1 %} &ndash; {{ 'Page' }} {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- comment -%} Self-hosted variable fonts — preloaded, no external requests. {%- endcomment -%}
+    <link rel="preload" href="{{ 'font-fraunces-var.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ 'font-inter-var.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+    <style>
+      @font-face {
+        font-family: 'Fraunces Variable';
+        src: url('{{ 'font-fraunces-var.woff2' | asset_url }}') format('woff2-variations');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Fraunces Variable';
+        src: url('{{ 'font-fraunces-var-italic.woff2' | asset_url }}') format('woff2-variations');
+        font-weight: 100 900;
+        font-style: italic;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter Variable';
+        src: url('{{ 'font-inter-var.woff2' | asset_url }}') format('woff2-variations');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+
+    {{ 'app.css' | asset_url | stylesheet_tag }}
+
+    {%- comment -%} Theme Editor settings override the design tokens. {%- endcomment -%}
+    <style>
+      :root {
+        --c-gold: {{ settings.color_accent | default: '#c9a86a' }};
+        --c-gold-bright: {{ settings.color_accent | default: '#c9a86a' | color_lighten: 12 }};
+        --c-deep: {{ settings.color_background | default: '#0c120a' }};
+        --c-ink: {{ settings.color_text | default: '#f4f1e8' }};
+        --c-moss: {{ settings.color_primary | default: '#4c6b43' }};
+      }
+    </style>
+
+    <script type="application/json" id="ts-config">
+      {
+        "assetsBase": {{ 'app.js' | asset_url | split: 'app.js' | first | json }},
+        "webglEnabled": {{ settings.enable_webgl | json }},
+        "particlesEnabled": {{ settings.enable_particles | json }},
+        "intensity": {{ settings.motion_intensity | default: 1.0 | json }},
+        "brand": {{ shop.name | json }}
+      }
+    </script>
+    <script src="{{ 'app.js' | asset_url }}" type="module"></script>
+
+    {%- if request.page_type == 'index' -%}
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": {{ shop.name | json }},
+          "description": {{ page_description | default: shop.description | json }},
+          "url": {{ shop.url | json }}
+          {%- if settings.contact_phone != blank -%},
+          "telephone": {{ settings.contact_phone | json }}
+          {%- endif -%}
+        }
+      </script>
+    {%- endif -%}
+
+    {{ content_for_header }}
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    {% render 'canvas-root' %}
+
+    {% sections 'header-group' %}
+
+    <main id="main-content" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    <div class="ts-grain" aria-hidden="true"></div>
+  </body>
+</html>

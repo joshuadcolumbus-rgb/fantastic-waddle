@@ -1,0 +1,25 @@
+{%- if block.settings.link != blank -%}
+  <a class="ts-area" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ block.settings.name }}</a>
+{%- else -%}
+  <span class="ts-area" {{ block.shopify_attributes }}>{{ block.settings.name }}</span>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Service area",
+  "settings": [
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Area name",
+      "default": "Phoenix"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link (optional)"
+    }
+  ],
+  "presets": [{ "name": "Service area" }]
+}
+{% endschema %}

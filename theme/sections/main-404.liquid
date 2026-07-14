@@ -1,0 +1,18 @@
+<section class="ts-section ts-commerce" style="display: grid; align-content: center; text-align: center; min-height: 80svh;">
+  <div class="ts-container">
+    <p class="ts-eyebrow" style="justify-content: center;">404</p>
+    <h1 class="ts-chapter__title" style="margin-inline: auto;">{{ 'general.404.title' | t }}</h1>
+    <p class="ts-lede" style="margin-inline: auto;">{{ 'general.404.subtext' | t }}</p>
+    <div style="margin-top: var(--space-3);">
+      {% assign link_label = 'general.404.link' | t %}
+      {% render 'button', label: link_label, url: routes.root_url %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404",
+  "settings": []
+}
+{% endschema %}

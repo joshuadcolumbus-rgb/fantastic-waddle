@@ -1,0 +1,28 @@
+{%- comment -%}
+  Inline icon set (stroke, inherits currentColor).
+    name — leaf | water | sun | stone | tree | building | spark | arrow
+    size — px, default 24
+{%- endcomment -%}
+{%- assign px = size | default: 24 -%}
+<svg width="{{ px }}" height="{{ px }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- case name -%}
+    {%- when 'leaf' -%}
+      <path d="M6 21c0-9 4-15 14-17-1 10-6 15-14 15"/><path d="M6 21c3-5 7-9 11-11"/>
+    {%- when 'water' -%}
+      <path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"/><path d="M9 14a3 3 0 0 0 3 3"/>
+    {%- when 'sun' -%}
+      <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+    {%- when 'stone' -%}
+      <path d="M3 16l4-9 6-2 7 5-2 7-8 2z"/><path d="M7 7l5 6 8-3M12 13l-1 7"/>
+    {%- when 'tree' -%}
+      <path d="M12 22v-6"/><path d="M12 2a6 6 0 0 1 6 6c0 2-1 3-2 4a5 5 0 0 1-4 4 5 5 0 0 1-4-4c-1-1-2-2-2-4a6 6 0 0 1 6-6z"/>
+    {%- when 'building' -%}
+      <path d="M4 21V7l8-4 8 4v14"/><path d="M9 21v-4h6v4M9 11h.01M15 11h.01M12 8h.01"/><path d="M2 21h20"/>
+    {%- when 'spark' -%}
+      <path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4z"/>
+    {%- when 'arrow' -%}
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    {%- else -%}
+      <circle cx="12" cy="12" r="9"/>
+  {%- endcase -%}
+</svg>

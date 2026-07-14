@@ -1,0 +1,25 @@
+<div class="ts-stat" {{ block.shopify_attributes }}>
+  <div class="ts-stat__value">{{ block.settings.value }}</div>
+  <div class="ts-stat__label">{{ block.settings.label }}</div>
+</div>
+
+{% schema %}
+{
+  "name": "Statistic",
+  "settings": [
+    {
+      "type": "text",
+      "id": "value",
+      "label": "Value",
+      "default": "20+"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Years of craft"
+    }
+  ],
+  "presets": [{ "name": "Statistic" }]
+}
+{% endschema %}

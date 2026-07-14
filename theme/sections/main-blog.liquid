@@ -1,0 +1,30 @@
+<section class="ts-section ts-commerce">
+  <div class="ts-container">
+    <p class="ts-eyebrow">Journal</p>
+    <h1 class="ts-chapter__title" data-reveal="chars">{{ blog.title }}</h1>
+
+    {%- paginate blog.articles by 9 -%}
+      <div class="ts-commerce__grid" data-stagger>
+        {%- for article in blog.articles -%}
+          <a class="ts-card" href="{{ article.url }}">
+            {%- if article.image -%}
+              {{ article.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: article.title }}
+            {%- endif -%}
+            <span>{{ article.title }}</span>
+            <span style="color: var(--c-ink-faint); font-size: 0.85rem;">{{ article.published_at | date: '%B %d, %Y' }}</span>
+          </a>
+        {%- endfor -%}
+      </div>
+      {%- if paginate.pages > 1 -%}
+        <nav style="margin-top: var(--space-4);" aria-label="Pagination">{{ paginate | default_pagination }}</nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": []
+}
+{% endschema %}

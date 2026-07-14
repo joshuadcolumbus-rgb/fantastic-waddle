@@ -1,0 +1,89 @@
+<footer class="ts-footer" role="contentinfo">
+  <div class="ts-container">
+    <div class="ts-footer__grid">
+      <div>
+        <p class="ts-footer__brand">{{ shop.name }}</p>
+        {%- if section.settings.tagline != blank -%}
+          <p class="ts-lede" style="font-size: 1rem;">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+      </div>
+
+      <div>
+        <h4>{{ section.settings.menu_heading }}</h4>
+        <ul>
+          {%- for link in section.settings.menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          {%- if settings.contact_phone != blank -%}
+            <li><a href="tel:{{ settings.contact_phone | remove: ' ' }}">{{ settings.contact_phone }}</a></li>
+          {%- endif -%}
+          {%- if settings.contact_email != blank -%}
+            <li><a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></li>
+          {%- endif -%}
+          {%- if settings.contact_address != blank -%}
+            <li>{{ settings.contact_address }}</li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <div>
+        <h4>Follow</h4>
+        <ul>
+          {%- if settings.social_instagram != blank -%}
+            <li><a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a></li>
+          {%- endif -%}
+          {%- if settings.social_houzz != blank -%}
+            <li><a href="{{ settings.social_houzz }}" target="_blank" rel="noopener">Houzz</a></li>
+          {%- endif -%}
+          {%- if settings.social_linkedin != blank -%}
+            <li><a href="{{ settings.social_linkedin }}" target="_blank" rel="noopener">LinkedIn</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+    </div>
+
+    <div class="ts-footer__legal">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
+      <span>{{ section.settings.legal_note }}</span>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "shopify-section-footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Landscapes composed like living architecture."
+    },
+    {
+      "type": "text",
+      "id": "menu_heading",
+      "label": "Menu heading",
+      "default": "Explore"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer menu",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "legal_note",
+      "label": "Legal note",
+      "default": "Licensed · Bonded · Insured"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,42 @@
+<section class="ts-section ts-commerce">
+  <div class="ts-container">
+    <p class="ts-eyebrow">{{ shop.name }}</p>
+    <h1 class="ts-chapter__title" data-reveal="chars">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="ts-lede">{{ collection.description }}</div>
+    {%- endif -%}
+
+    {%- paginate collection.products by 12 -%}
+      {%- if collection.products.size > 0 -%}
+        <div class="ts-commerce__grid" data-stagger>
+          {%- for product in collection.products -%}
+            <a class="ts-card" href="{{ product.url }}">
+              {%- if product.featured_media -%}
+                {{ product.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}
+              {%- else -%}
+                {{ 'product-2' | placeholder_svg_tag: 'ts-placeholder' }}
+              {%- endif -%}
+              <span>{{ product.title }}</span>
+              <span class="ts-card__price">{{ product.price_min | money }}</span>
+            </a>
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav style="margin-top: var(--space-4);" aria-label="Pagination">
+            {{ paginate | default_pagination }}
+          </nav>
+        {%- endif -%}
+      {%- else -%}
+        <p class="ts-lede">{{ 'collections.empty' | t }}</p>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": []
+}
+{% endschema %}

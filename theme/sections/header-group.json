@@ -1,0 +1,15 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "cta_label": "Book a consultation",
+        "cta_link": "/#contact"
+      }
+    }
+  },
+  "order": ["header"]
+}

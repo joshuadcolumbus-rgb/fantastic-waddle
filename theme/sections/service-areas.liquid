@@ -1,0 +1,80 @@
+<section
+  class="ts-section ts-areas"
+  {% render 'scene-anchor', beat: section.settings.beat, type: 'areas' %}
+>
+  <div class="ts-container">
+    {% render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title,
+      lede: section.settings.lede
+    %}
+
+    <div class="ts-areas__cloud" data-stagger>
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Service areas",
+  "tag": "div",
+  "blocks": [{ "type": "service-area" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Where we build"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Serving the region's finest addresses"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede",
+      "default": "Residential estates and commercial grounds across the metro area."
+    },
+    {
+      "type": "select",
+      "id": "beat",
+      "label": "Scene mood",
+      "info": "Where this chapter sits in the dawn-to-night journey behind the content.",
+      "options": [
+        { "value": "dawn-garden", "label": "Dawn garden" },
+        { "value": "morning-meadow", "label": "Morning meadow" },
+        { "value": "stone-path", "label": "Stone path" },
+        { "value": "pergola-court", "label": "Pergola court" },
+        { "value": "water-garden", "label": "Water garden" },
+        { "value": "emerald-lawn", "label": "Emerald lawn" },
+        { "value": "dusk-glow", "label": "Dusk glow" },
+        { "value": "stone-twilight", "label": "Stone twilight" },
+        { "value": "estate-blue", "label": "Estate blue hour" },
+        { "value": "twilight-gallery", "label": "Twilight gallery" },
+        { "value": "firefly-night", "label": "Firefly night" },
+        { "value": "moonlit-path", "label": "Moonlit path" },
+        { "value": "lantern-walk", "label": "Lantern walk" },
+        { "value": "still-water", "label": "Still water night" }
+      ],
+      "default": "lantern-walk"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Service areas",
+      "blocks": [
+        { "type": "service-area", "settings": { "name": "Phoenix" } },
+        { "type": "service-area", "settings": { "name": "Scottsdale" } },
+        { "type": "service-area", "settings": { "name": "Paradise Valley" } },
+        { "type": "service-area", "settings": { "name": "Glendale" } },
+        { "type": "service-area", "settings": { "name": "Peoria" } },
+        { "type": "service-area", "settings": { "name": "Goodyear" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

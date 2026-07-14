@@ -1,0 +1,11 @@
+{%- comment -%}
+  Emits the shared attributes that bind a section to a beat on the WebGL
+  master timeline. Render inside a section tag:
+
+    <section {% render 'scene-anchor', beat: section.settings.beat, type: 'hero' %}>
+
+  Accepts:
+    beat — beat preset name (see the "Scene mood" select in section schemas)
+    type — semantic section type hint for app.js
+{%- endcomment -%}
+id="{{ section.id }}" data-scene-anchor data-beat="{{ beat | default: 'morning-meadow' }}" data-section-type="{{ type | default: 'chapter' }}"

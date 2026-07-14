@@ -1,0 +1,71 @@
+<section class="ts-section ts-commerce">
+  <div class="ts-container">
+    <h1 class="ts-chapter__title" data-reveal="chars">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      {% form 'cart', cart %}
+        <table class="ts-table">
+          <thead>
+            <tr>
+              <th scope="col">{{ 'cart.product' | t }}</th>
+              <th scope="col">{{ 'cart.price' | t }}</th>
+              <th scope="col">{{ 'cart.quantity' | t }}</th>
+              <th scope="col">{{ 'cart.total' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for item in cart.items -%}
+              <tr>
+                <td>
+                  <a href="{{ item.url }}">{{ item.product.title }}</a>
+                  {%- unless item.product.has_only_default_variant -%}
+                    <br><small style="color: var(--c-ink-faint);">{{ item.variant.title }}</small>
+                  {%- endunless -%}
+                  <br>
+                  <a href="{{ item.url_to_remove }}" style="color: var(--c-ink-faint); font-size: 0.8rem;">
+                    {{- 'cart.remove' | t -}}
+                  </a>
+                </td>
+                <td>{{ item.price | money }}</td>
+                <td>
+                  <label class="visually-hidden" for="qty-{{ item.key }}">{{ 'cart.quantity' | t }}</label>
+                  <input
+                    class="ts-qty"
+                    style="padding: 0.5em 0.8em; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(244,241,232,0.05); color: var(--c-ink);"
+                    type="number"
+                    id="qty-{{ item.key }}"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                  >
+                </td>
+                <td>{{ item.final_line_price | money }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: flex-end; align-items: center; margin-top: var(--space-3);">
+          <strong style="font-size: 1.2rem;">{{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}</strong>
+          <button type="submit" class="ts-btn ts-btn--ghost" name="update">
+            <span class="ts-btn__label">{{ 'cart.update' | t }}</span>
+          </button>
+          <button type="submit" class="ts-btn" name="checkout" data-magnetic>
+            <span class="ts-btn__label">{{ 'cart.checkout' | t }}</span>
+          </button>
+        </div>
+      {% endform %}
+    {%- else -%}
+      <p class="ts-lede">{{ 'cart.empty' | t }}</p>
+      {% assign continue_label = 'cart.continue' | t %}
+      {% render 'button', label: continue_label, url: routes.all_products_collection_url, style: 'ghost' %}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": []
+}
+{% endschema %}

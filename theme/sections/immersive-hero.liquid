@@ -1,0 +1,117 @@
+<section
+  class="ts-section ts-hero"
+  {% render 'scene-anchor', beat: section.settings.beat, type: 'hero' %}
+>
+  <div class="ts-container">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="ts-eyebrow" data-intro="eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <h1 class="ts-hero__headline" data-intro="headline">
+      {{- section.settings.headline -}}
+      {%- if section.settings.headline_accent != blank %}
+        <em>{{ section.settings.headline_accent }}</em>
+      {%- endif -%}
+    </h1>
+
+    {%- if section.settings.lede != blank -%}
+      <p class="ts-lede" data-intro="lede">{{ section.settings.lede }}</p>
+    {%- endif -%}
+
+    <div class="ts-hero__actions" data-intro="cta">
+      {% render 'button', label: section.settings.cta_label, url: section.settings.cta_link %}
+      {% render 'button', label: section.settings.cta_secondary_label, url: section.settings.cta_secondary_link, style: 'ghost' %}
+    </div>
+  </div>
+
+  <p class="ts-hero__hint" data-intro="hint" aria-hidden="true">{{ section.settings.scroll_hint }}</p>
+</section>
+
+{% schema %}
+{
+  "name": "Immersive hero",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Bespoke landscape architecture"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Where land becomes"
+    },
+    {
+      "type": "text",
+      "id": "headline_accent",
+      "label": "Headline accent (italic)",
+      "default": "living art."
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Introduction",
+      "default": "We design, build and tend estate gardens, courtyards and outdoor rooms — composed like architecture, grown like nature."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Primary button label",
+      "default": "Begin your project"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary button label",
+      "default": "View portfolio"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "text",
+      "id": "scroll_hint",
+      "label": "Scroll hint",
+      "default": "Scroll to walk the grounds"
+    },
+    {
+      "type": "select",
+      "id": "beat",
+      "label": "Scene mood",
+      "info": "Where this chapter sits in the dawn-to-night journey behind the content.",
+      "options": [
+        { "value": "dawn-garden", "label": "Dawn garden" },
+        { "value": "morning-meadow", "label": "Morning meadow" },
+        { "value": "stone-path", "label": "Stone path" },
+        { "value": "pergola-court", "label": "Pergola court" },
+        { "value": "water-garden", "label": "Water garden" },
+        { "value": "emerald-lawn", "label": "Emerald lawn" },
+        { "value": "dusk-glow", "label": "Dusk glow" },
+        { "value": "stone-twilight", "label": "Stone twilight" },
+        { "value": "estate-blue", "label": "Estate blue hour" },
+        { "value": "twilight-gallery", "label": "Twilight gallery" },
+        { "value": "firefly-night", "label": "Firefly night" },
+        { "value": "moonlit-path", "label": "Moonlit path" },
+        { "value": "lantern-walk", "label": "Lantern walk" },
+        { "value": "still-water", "label": "Still water night" }
+      ],
+      "default": "dawn-garden"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Immersive hero"
+    }
+  ]
+}
+{% endschema %}

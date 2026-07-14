@@ -1,0 +1,128 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Terra & Stone",
+    "theme_version": "1.0.0",
+    "theme_author": "Terra & Stone Studio",
+    "theme_documentation_url": "https://github.com/joshuadcolumbus-rgb/fantastic-waddle/blob/main/docs/shopify-integration.md",
+    "theme_support_url": "https://github.com/joshuadcolumbus-rgb/fantastic-waddle/issues"
+  },
+  {
+    "name": "Branding",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo",
+        "info": "Shown in the header. Leave empty to use the shop name as a wordmark."
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent (brass)",
+        "default": "#c9a86a"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary green",
+        "default": "#4c6b43"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Deep background",
+        "default": "#0c120a"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text (warm ivory)",
+        "default": "#f4f1e8"
+      }
+    ]
+  },
+  {
+    "name": "Contact details",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "Telephone",
+        "default": "+1 (555) 010-4400"
+      },
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Email",
+        "default": "studio@terraandstone.com"
+      },
+      {
+        "type": "text",
+        "id": "contact_address",
+        "label": "Address"
+      },
+      {
+        "type": "text",
+        "id": "contact_hours",
+        "label": "Studio hours",
+        "default": "Mon–Fri, 8am–5pm"
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_houzz",
+        "label": "Houzz"
+      },
+      {
+        "type": "url",
+        "id": "social_linkedin",
+        "label": "LinkedIn"
+      }
+    ]
+  },
+  {
+    "name": "Immersive experience",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "The WebGL garden renders behind your content and follows the visitor's scroll from dawn to night. It automatically steps down (or turns off) on weak devices and honors reduced-motion preferences — content is never affected."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_webgl",
+        "label": "Enable the 3D garden",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_particles",
+        "label": "Enable pollen, fireflies & butterflies",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "motion_intensity",
+        "label": "Atmosphere intensity",
+        "min": 0.2,
+        "max": 1.5,
+        "step": 0.1,
+        "default": 1.0
+      }
+    ]
+  }
+]

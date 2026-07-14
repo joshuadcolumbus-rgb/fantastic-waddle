@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "contact": {
+      "type": "contact",
+      "settings": {
+        "eyebrow": "Begin",
+        "title": "Let's walk your land together",
+        "beat": "still-water"
+      }
+    }
+  },
+  "order": ["contact"]
+}

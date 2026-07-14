@@ -1,0 +1,23 @@
+<article class="ts-section ts-commerce">
+  <div class="ts-container" style="max-width: 46rem;">
+    <p class="ts-eyebrow">{{ article.published_at | date: '%B %d, %Y' }}</p>
+    <h1 class="ts-chapter__title" data-reveal="chars">{{ article.title }}</h1>
+
+    {%- if article.image -%}
+      <div data-reveal="mask" style="margin-block: var(--space-3);">
+        {{ article.image | image_url: width: 1400 | image_tag: loading: 'eager', alt: article.image.alt | default: article.title, style: 'border-radius: var(--radius-lg);' }}
+      </div>
+    {%- endif -%}
+
+    <div class="ts-glass" style="padding: clamp(1.6rem, 3.5vw, 3rem);">
+      {{ article.content }}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,43 @@
+<li class="ts-service-card" {{ block.shopify_attributes }}>
+  <span style="color: var(--c-gold);">{% render 'icon', name: block.settings.icon, size: 22 %}</span>
+  <span>
+    <strong>{{ block.settings.title }}</strong>
+    {%- if block.settings.text != blank %} — {{ block.settings.text }}{% endif -%}
+  </span>
+</li>
+
+{% schema %}
+{
+  "name": "Service card",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "water", "label": "Water" },
+        { "value": "sun", "label": "Sun" },
+        { "value": "stone", "label": "Stone" },
+        { "value": "tree", "label": "Tree" },
+        { "value": "building", "label": "Building" },
+        { "value": "spark", "label": "Spark" }
+      ],
+      "default": "leaf"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Planting design"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Description",
+      "default": "Layered, seasonal planting plans built for your site."
+    }
+  ],
+  "presets": [{ "name": "Service card" }]
+}
+{% endschema %}

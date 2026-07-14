@@ -1,0 +1,256 @@
+{
+  "sections": {
+    "hero": {
+      "type": "immersive-hero",
+      "settings": {
+        "eyebrow": "Bespoke landscape architecture",
+        "headline": "Where land becomes",
+        "headline_accent": "living art.",
+        "lede": "We design, build and tend estate gardens, courtyards and outdoor rooms — composed like architecture, grown like nature.",
+        "cta_label": "Begin your project",
+        "cta_link": "/#contact",
+        "cta_secondary_label": "View portfolio",
+        "cta_secondary_link": "/#portfolio",
+        "scroll_hint": "Scroll to walk the grounds",
+        "beat": "dawn-garden"
+      }
+    },
+    "about": {
+      "type": "about",
+      "blocks": {
+        "stat-years": { "type": "stat", "settings": { "value": "20+", "label": "Years of craft" } },
+        "stat-gardens": { "type": "stat", "settings": { "value": "340", "label": "Gardens composed" } },
+        "stat-awards": { "type": "stat", "settings": { "value": "12", "label": "Design awards" } }
+      },
+      "block_order": ["stat-years", "stat-gardens", "stat-awards"],
+      "settings": {
+        "eyebrow": "The studio",
+        "title": "Craft rooted in the land",
+        "lede": "For two decades we have shaped grounds that hold their beauty in every season — gardens that greet the dawn and glow at dusk.",
+        "body": "<p>Our designers, horticulturists and master builders work as one studio. Every commission begins with the land itself: its light, its slope, its stone, its water.</p>",
+        "beat": "morning-meadow"
+      }
+    },
+    "design": {
+      "type": "services",
+      "blocks": {
+        "d1": { "type": "service-card", "settings": { "icon": "leaf", "title": "Master planning", "text": "The whole property composed as one continuous experience." } },
+        "d2": { "type": "service-card", "settings": { "icon": "sun", "title": "Light studies", "text": "Designs tested against real sun paths across the seasons." } },
+        "d3": { "type": "service-card", "settings": { "icon": "tree", "title": "Specimen sourcing", "text": "Mature trees and rare plantings selected by hand." } }
+      },
+      "block_order": ["d1", "d2", "d3"],
+      "settings": {
+        "eyebrow": "01 — Landscape design",
+        "title": "Grounds composed like architecture",
+        "lede": "Master plans that read the land first — light, slope, stone and water — then shape it into rooms, walks and views.",
+        "cta_label": "Explore design",
+        "cta_link": "/#contact",
+        "flip": false,
+        "beat": "stone-path"
+      }
+    },
+    "outdoor-living": {
+      "type": "services",
+      "blocks": {
+        "o1": { "type": "service-card", "settings": { "icon": "stone", "title": "Pergolas & pavilions", "text": "Cedar and steel rooms that live outdoors." } },
+        "o2": { "type": "service-card", "settings": { "icon": "spark", "title": "Fire & gathering", "text": "Fire bowls, hearths and evening terraces." } },
+        "o3": { "type": "service-card", "settings": { "icon": "leaf", "title": "Outdoor kitchens", "text": "Full culinary suites built for the seasons." } }
+      },
+      "block_order": ["o1", "o2", "o3"],
+      "settings": {
+        "eyebrow": "02 — Outdoor living",
+        "title": "Rooms without ceilings",
+        "lede": "Pergolas, lounges and dining courts that turn evening air into the finest room of the house.",
+        "cta_label": "Explore outdoor living",
+        "cta_link": "/#contact",
+        "flip": true,
+        "beat": "pergola-court"
+      }
+    },
+    "irrigation": {
+      "type": "services",
+      "blocks": {
+        "i1": { "type": "service-card", "settings": { "icon": "water", "title": "Smart irrigation", "text": "Weather-driven systems that water only when the garden asks." } },
+        "i2": { "type": "service-card", "settings": { "icon": "water", "title": "Drainage & capture", "text": "Storm flows managed and returned to the land." } },
+        "i3": { "type": "service-card", "settings": { "icon": "leaf", "title": "Water features", "text": "Ponds, rills and reflecting pools, engineered to whisper." } }
+      },
+      "block_order": ["i1", "i2", "i3"],
+      "settings": {
+        "eyebrow": "03 — Irrigation & water",
+        "title": "Water, considered",
+        "lede": "Irrigation you never think about and water features you never stop thinking about.",
+        "cta_label": "Explore water systems",
+        "cta_link": "/#contact",
+        "flip": false,
+        "beat": "water-garden"
+      }
+    },
+    "turf": {
+      "type": "services",
+      "blocks": {
+        "t1": { "type": "service-card", "settings": { "icon": "leaf", "title": "Premium artificial turf", "text": "Natural-read fibers over engineered sub-base." } },
+        "t2": { "type": "service-card", "settings": { "icon": "sun", "title": "Every-season green", "text": "Flawless in drought, shade and heavy play." } },
+        "t3": { "type": "service-card", "settings": { "icon": "stone", "title": "Putting greens", "text": "Tour-grade surfaces shaped to your land." } }
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {
+        "eyebrow": "04 — Artificial turf",
+        "title": "The emerald lawn, perfected",
+        "lede": "Lawns that hold their color through every season — engineered beneath, indistinguishable above.",
+        "cta_label": "Explore turf",
+        "cta_link": "/#contact",
+        "flip": true,
+        "wide_media": true,
+        "beat": "emerald-lawn"
+      }
+    },
+    "lighting": {
+      "type": "services",
+      "blocks": {
+        "l1": { "type": "service-card", "settings": { "icon": "spark", "title": "Scene design", "text": "Layered scenes tuned for dinner, moonlight and arrival." } },
+        "l2": { "type": "service-card", "settings": { "icon": "tree", "title": "Canopy lighting", "text": "Moonlight effects cast through mature trees." } },
+        "l3": { "type": "service-card", "settings": { "icon": "stone", "title": "Path & step lights", "text": "Warm, glare-free guidance set into the stone." } }
+      },
+      "block_order": ["l1", "l2", "l3"],
+      "settings": {
+        "eyebrow": "05 — Landscape lighting",
+        "title": "The garden after dark",
+        "lede": "As the sun sets, a second garden appears — lanterns ignite, canopies glow, and water carries the light.",
+        "cta_label": "Explore lighting",
+        "cta_link": "/#contact",
+        "flip": false,
+        "beat": "dusk-glow"
+      }
+    },
+    "hardscapes": {
+      "type": "services",
+      "blocks": {
+        "h1": { "type": "service-card", "settings": { "icon": "stone", "title": "Natural stone", "text": "Bluestone, granite and quartzite set by master masons." } },
+        "h2": { "type": "service-card", "settings": { "icon": "stone", "title": "Walls & terraces", "text": "Dry-laid and mortared structures built for a century." } },
+        "h3": { "type": "service-card", "settings": { "icon": "arrow", "title": "Drives & entries", "text": "Arrival sequences worthy of the address." } }
+      },
+      "block_order": ["h1", "h2", "h3"],
+      "settings": {
+        "eyebrow": "06 — Hardscapes",
+        "title": "Stone that will outlive us",
+        "lede": "Terraces, walls and walks cut from natural stone — the permanent bones of the garden.",
+        "cta_label": "Explore hardscapes",
+        "cta_link": "/#contact",
+        "flip": true,
+        "beat": "stone-twilight"
+      }
+    },
+    "commercial": {
+      "type": "services",
+      "blocks": {
+        "c1": { "type": "service-card", "settings": { "icon": "building", "title": "Estates & hospitality", "text": "Grounds for properties where first impressions are the brand." } },
+        "c2": { "type": "service-card", "settings": { "icon": "leaf", "title": "Year-round stewardship", "text": "Dedicated crews keeping every season immaculate." } },
+        "c3": { "type": "service-card", "settings": { "icon": "water", "title": "Sustainable systems", "text": "Water-wise planting and irrigation at campus scale." } }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": {
+        "eyebrow": "07 — Commercial projects",
+        "title": "Landscapes at estate scale",
+        "lede": "Hotels, campuses and communities that treat their grounds as their signature.",
+        "cta_label": "Commercial enquiries",
+        "cta_link": "/#contact",
+        "flip": false,
+        "wide_media": true,
+        "beat": "estate-blue"
+      }
+    },
+    "portfolio": {
+      "type": "gallery",
+      "blocks": {
+        "g1": { "type": "gallery-image", "settings": { "title": "Hillcrest Estate", "meta": "Private garden · 2.4 acres", "depth": "0.4" } },
+        "g2": { "type": "gallery-image", "settings": { "title": "Stillwater Court", "meta": "Courtyard & pond", "depth": "-0.3" } },
+        "g3": { "type": "gallery-image", "settings": { "title": "The Olive Walk", "meta": "Entry sequence", "depth": "0.2" } },
+        "g4": { "type": "gallery-image", "settings": { "title": "Lantern Terrace", "meta": "Outdoor room & fire", "depth": "-0.4" } },
+        "g5": { "type": "gallery-image", "settings": { "title": "Meadow House", "meta": "Naturalistic meadow", "depth": "0.3" } }
+      },
+      "block_order": ["g1", "g2", "g3", "g4", "g5"],
+      "settings": {
+        "eyebrow": "Selected work",
+        "title": "Grounds we have composed",
+        "lede": "A walk through recent commissions — keep scrolling to drift through the collection.",
+        "beat": "twilight-gallery"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "q1": { "type": "testimonial", "settings": { "quote": "They didn't plant a garden — they composed one. Every window of the house now frames a picture.", "name": "E. & M. Hartwell", "meta": "Hillcrest Estate", "stars": 5 } },
+        "q2": { "type": "testimonial", "settings": { "quote": "The lighting alone changed how we live. We spend every evening outside now, well past dark.", "name": "D. Okafor", "meta": "Lantern Terrace", "stars": 5 } },
+        "q3": { "type": "testimonial", "settings": { "quote": "Flawless process — one team from first sketch to final stone. The craftsmanship is remarkable.", "name": "S. Lindqvist", "meta": "Stillwater Court", "stars": 5 } }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": {
+        "eyebrow": "In their words",
+        "title": "Clients who walk their gardens nightly",
+        "beat": "firefly-night"
+      }
+    },
+    "process": {
+      "type": "process",
+      "blocks": {
+        "p1": { "type": "process-step", "settings": { "title": "Walk the land", "text": "We begin on site — reading light, slope, soil and the way you want to live outdoors." } },
+        "p2": { "type": "process-step", "settings": { "title": "Compose the plan", "text": "Concept sketches become a master plan: planting, stone, water, lighting and phasing." } },
+        "p3": { "type": "process-step", "settings": { "title": "Build with craft", "text": "Our own crews shape the ground, set the stone and plant every specimen by hand." } },
+        "p4": { "type": "process-step", "settings": { "title": "Tend the seasons", "text": "Stewardship keeps the composition maturing beautifully year after year." } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4"],
+      "settings": {
+        "eyebrow": "How we work",
+        "title": "From first walk to final stone",
+        "beat": "moonlit-path"
+      }
+    },
+    "areas": {
+      "type": "service-areas",
+      "blocks": {
+        "a1": { "type": "service-area", "settings": { "name": "Phoenix" } },
+        "a2": { "type": "service-area", "settings": { "name": "Scottsdale" } },
+        "a3": { "type": "service-area", "settings": { "name": "Paradise Valley" } },
+        "a4": { "type": "service-area", "settings": { "name": "Glendale" } },
+        "a5": { "type": "service-area", "settings": { "name": "Peoria" } },
+        "a6": { "type": "service-area", "settings": { "name": "Sun City" } },
+        "a7": { "type": "service-area", "settings": { "name": "Goodyear" } },
+        "a8": { "type": "service-area", "settings": { "name": "Surprise" } }
+      },
+      "block_order": ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"],
+      "settings": {
+        "eyebrow": "Where we build",
+        "title": "Serving the region's finest addresses",
+        "lede": "Residential estates and commercial grounds across the metro area.",
+        "beat": "lantern-walk"
+      }
+    },
+    "contact": {
+      "type": "contact",
+      "settings": {
+        "eyebrow": "Begin",
+        "title": "Let's walk your land together",
+        "lede": "Tell us about your grounds and the way you want to live in them. We'll arrange a site walk and a first conversation.",
+        "submit_label": "Request a consultation",
+        "success_message": "Thank you — we'll be in touch within one business day.",
+        "beat": "still-water"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "about",
+    "design",
+    "outdoor-living",
+    "irrigation",
+    "turf",
+    "lighting",
+    "hardscapes",
+    "commercial",
+    "portfolio",
+    "testimonials",
+    "process",
+    "areas",
+    "contact"
+  ]
+}

@@ -1,0 +1,49 @@
+<figure class="ts-quote ts-glass" {{ block.shopify_attributes }}>
+  {%- if block.settings.stars > 0 -%}
+    <span class="ts-quote__stars" aria-label="{{ block.settings.stars }} out of 5 stars">
+      {%- for i in (1..block.settings.stars) -%}★{%- endfor -%}
+    </span>
+  {%- endif -%}
+  <blockquote>{{ block.settings.quote }}</blockquote>
+  <figcaption>
+    <span class="ts-quote__name">{{ block.settings.name }}</span>
+    {%- if block.settings.meta != blank -%}
+      <span class="ts-quote__meta">{{ block.settings.meta }}</span>
+    {%- endif -%}
+  </figcaption>
+</figure>
+
+{% schema %}
+{
+  "name": "Testimonial",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "They didn't plant a garden — they composed one."
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "default": "A satisfied client"
+    },
+    {
+      "type": "text",
+      "id": "meta",
+      "label": "Project / location"
+    },
+    {
+      "type": "range",
+      "id": "stars",
+      "label": "Star rating",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    }
+  ],
+  "presets": [{ "name": "Testimonial" }]
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+<article
+  class="ts-gallery__panel"
+  data-depth="{{ block.settings.depth | default: 0 }}"
+  data-title="{{ block.settings.title | escape }}"
+  data-meta="{{ block.settings.meta | escape }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ts-gallery__media" data-cursor="view">
+    {%- if block.settings.image != blank -%}
+      {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '480, 800, 1400', alt: block.settings.image.alt | default: block.settings.title }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'ts-placeholder' }}
+    {%- endif -%}
+  </div>
+  <div class="ts-gallery__caption">
+    <h3>{{ block.settings.title }}</h3>
+    <span>{{ block.settings.meta }}</span>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Project",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Project title",
+      "default": "Hillcrest Estate"
+    },
+    {
+      "type": "text",
+      "id": "meta",
+      "label": "Meta line",
+      "default": "Private garden · 2.4 acres",
+      "info": "Tip: connect a metaobject field here for dynamic project data."
+    },
+    {
+      "type": "select",
+      "id": "depth",
+      "label": "Float depth",
+      "info": "How strongly the panel drifts against the scroll — creates layered parallax.",
+      "options": [
+        { "value": "-0.4", "label": "Far back" },
+        { "value": "-0.3", "label": "Back" },
+        { "value": "0", "label": "Neutral" },
+        { "value": "0.2", "label": "Forward" },
+        { "value": "0.3", "label": "Close" },
+        { "value": "0.4", "label": "Closest" }
+      ],
+      "default": "0"
+    }
+  ],
+  "presets": [{ "name": "Project" }]
+}
+{% endschema %}
