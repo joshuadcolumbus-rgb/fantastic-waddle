@@ -8,7 +8,13 @@
       "Skill(shopify-plugin:shopify-use-shopify-cli:*)",
       "Bash(shopify help *)",
       "Bash(SHOPIFY_CLI_AGENT_INFO=\"n:claude-code|v:1.0|p:anthropic|m:claude-sonnet-5\" SHOPIFY_CLI_AGENT_IDS=\"s:none|r:none|i:none\" shopify theme list --store Dnuvu9-11.myshopify.com)",
-      "Bash(SHOPIFY_CLI_AGENT_INFO=\"n:claude-code|v:1.0|p:anthropic|m:claude-sonnet-5\" SHOPIFY_CLI_AGENT_IDS=\"s:none|r:none|i:none\" shopify theme push --store Dnuvu9-11.myshopify.com --theme 153231720622)"
+      "Bash(SHOPIFY_CLI_AGENT_INFO=\"n:claude-code|v:1.0|p:anthropic|m:claude-sonnet-5\" SHOPIFY_CLI_AGENT_IDS=\"s:none|r:none|i:none\" shopify theme push --store Dnuvu9-11.myshopify.com --theme 153231720622)",
+      "Bash(flutter analyze *)",
+      "Bash(ps aux *)",
+      "Bash(awk '{printf \"%-8s %5s%% %s\\\\n\", $1, $4, substr\\($0, index\\($0,$11\\), 80\\)}')",
+      "Bash(curl -s -o /dev/null -w \"port 8080: %{http_code}\\\\n\" --max-time 5 http://localhost:8080/)",
+      "Bash(curl -s http://localhost:8080/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080)"
     ]
   }
 }

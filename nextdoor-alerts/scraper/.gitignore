@@ -1,0 +1,3 @@
+# secrets + session data — never commit these
+config.json
+state/

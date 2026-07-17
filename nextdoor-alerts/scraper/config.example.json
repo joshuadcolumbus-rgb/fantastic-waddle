@@ -1,0 +1,28 @@
+{
+  "pushover_app_token": "PASTE_APP_TOKEN",
+  "pushover_user_keys": ["PASTE_YOUR_USER_KEY"],
+  "keywords": [
+    "recommend", "referral", "looking for someone", "looking for a good",
+    "anyone know", "who do you use", "any suggestions", "need someone",
+    "need help with", "hire", "quote", "estimate",
+
+    "handyman", "contractor", "electrician", "electrical", "plumber",
+    "plumbing", "hvac", "air conditioning", "furnace", "water heater",
+    "roofer", "roofing", "gutter", "siding", "insulation", "window install",
+    "window replacement", "garage door", "appliance repair", "painter",
+    "painting", "drywall", "carpenter", "remodel", "renovat", "flooring",
+    "tile work", "carpet", "concrete", "driveway", "paver", "mason",
+    "chimney", "fence", "fencing", "deck", "patio", "landscap", "lawn care",
+    "mowing", "yard work", "tree removal", "tree trimming", "stump",
+    "sprinkler", "irrigation", "pressure wash", "power wash", "junk removal",
+    "hauling", "demolition", "excavat", "grading", "welding", "locksmith",
+    "pest control", "house cleaning", "gutter cleaning", "movers",
+    "moving help"
+  ],
+  "alert_start_hour": 7,
+  "alert_end_hour": 20,
+  "poll_minutes": 12,
+  "jitter_minutes": 3,
+  "headless": true,
+  "browser_channel": "chrome"
+}
