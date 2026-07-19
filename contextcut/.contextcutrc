@@ -1,0 +1,4 @@
+{
+  "mode": "full-text",
+  "ignoreDirs": ["tests", "migrations"]
+}

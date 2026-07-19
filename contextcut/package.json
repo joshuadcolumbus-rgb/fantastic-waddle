@@ -1,0 +1,26 @@
+{
+  "name": "contextcut",
+  "version": "0.1.0",
+  "description": "Repo crawler that strips comments and blank lines from source files to cut LLM token cost.",
+  "type": "module",
+  "bin": {
+    "contextcut": "dist/index.js"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "build": "tsc",
+    "bundle": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=cjs --outfile=dist/contextcut.cjs",
+    "package": "npm run bundle && pkg dist/contextcut.cjs --targets node22-linux-x64,node22-macos-x64,node22-macos-arm64,node22-win-x64 --out-path dist/binaries"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "typescript": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@yao-pkg/pkg": "^6.0.0",
+    "esbuild": "^0.24.0",
+    "tsx": "^4.16.0"
+  }
+}

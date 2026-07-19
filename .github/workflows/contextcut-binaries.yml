@@ -1,0 +1,67 @@
+name: Build Release Binaries
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'contextcut/**'
+      - '.github/workflows/contextcut-binaries.yml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: contextcut
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: contextcut/package-lock.json
+
+      - name: Cache pkg base Node binaries
+        uses: actions/cache@v4
+        with:
+          path: ~/.pkg-cache
+          key: pkg-cache-node22-${{ runner.os }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Compile TypeScript to JavaScript
+        run: npm run build
+
+      - name: Package Standalone Binaries
+        run: npm run package
+
+      - name: Upload Linux Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: contextcut-linux-x64
+          path: contextcut/dist/binaries/contextcut-linux-x64
+
+      - name: Upload macOS (Intel) Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: contextcut-macos-x64
+          path: contextcut/dist/binaries/contextcut-macos-x64
+
+      - name: Upload macOS (ARM/Apple Silicon) Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: contextcut-macos-arm64
+          path: contextcut/dist/binaries/contextcut-macos-arm64
+
+      - name: Upload Windows Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: contextcut-win-x64
+          path: contextcut/dist/binaries/contextcut-win-x64.exe
