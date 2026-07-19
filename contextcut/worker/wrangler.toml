@@ -1,0 +1,9 @@
+name = "contextcut-api"
+main = "src/index.ts"
+compatibility_date = "2026-07-01"
+
+# Replace `id` with the real namespace id from `wrangler kv namespace create CONTEXTCUT_DB`
+# before deploying. Local dev (`npm run dev`) ignores it and uses on-disk storage.
+[[kv_namespaces]]
+binding = "CONTEXTCUT_DB"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"

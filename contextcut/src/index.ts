@@ -5,6 +5,7 @@ import * as path from 'path';
 import chalk from 'chalk';
 import { crawlRepository, pruneCode } from './parser.js';
 import { loadConfig, type ContextCutConfig } from './config.js';
+import { fetchRemoteConfig } from './api.js';
 
 const program = new Command();
 
@@ -21,22 +22,48 @@ program
     ])
   )
   .option('-p, --prune-bodies', 'Alias for --mode skeleton')
+  .option('-k, --key <token>', 'Premium team license key for remote sync (or CONTEXTCUT_LICENSE env var)')
   .action(async (options) => {
     const targetDir = path.resolve(options.dir);
     const outFile = path.resolve(process.cwd(), options.out);
 
+    console.log(chalk.gray(`\n[ContextCut] Initializing crawler in: ${targetDir}`));
+
     try {
-      // Load the config file; precedence: CLI flag > .contextcutrc > default
+      // 1. Load baseline local config
       const fileConfig = await loadConfig(targetDir);
+
+      // 2. Intercept and override if a key is provided.
+      // Remote state overwrites local state (precedence: CLI flag > remote > .contextcutrc > default).
+      const licenseKey = options.key ?? process.env.CONTEXTCUT_LICENSE;
+      let remoteConfig: Partial<ContextCutConfig> = {};
+      if (licenseKey) {
+        console.log(chalk.gray(`[ContextCut] Authenticating license against Edge API...`));
+        try {
+          const remote = await fetchRemoteConfig(licenseKey);
+          remoteConfig = remote.config;
+          console.log(chalk.greenBright(`✔ Team configuration synchronized.`));
+          console.log(chalk.gray(`[ContextCut] Team: `) + chalk.cyanBright(remote.team.name ?? remote.team.id));
+        } catch (networkError) {
+          // Hard fail on any sync failure to prevent accidental leaks using local rules
+          console.error(chalk.redBright(`[Auth Error] ${(networkError as Error).message}`));
+          process.exit(1);
+        }
+      }
+
       const config: ContextCutConfig = {
         ...fileConfig,
-        mode: options.mode ?? (options.pruneBodies ? 'skeleton' : undefined) ?? fileConfig.mode,
+        ...remoteConfig,
+        mode:
+          options.mode ??
+          (options.pruneBodies ? 'skeleton' : undefined) ??
+          remoteConfig.mode ??
+          fileConfig.mode,
       };
 
-      console.log(chalk.gray(`\n[ContextCut] Initializing crawler in: ${targetDir}`));
-      console.log(chalk.gray(`[ContextCut] Mode: `) + chalk.cyan(config.mode));
+      console.log(chalk.gray(`[ContextCut] Mode: `) + chalk.cyanBright(config.mode));
       if (config.ignoreDirs && config.ignoreDirs.length > 0) {
-        console.log(chalk.gray(`[ContextCut] Custom Ignores: ${config.ignoreDirs.join(', ')}`));
+        console.log(chalk.gray(`[ContextCut] Ignores: ${config.ignoreDirs.join(', ')}`));
       }
 
       const files = await crawlRepository(targetDir, config);
@@ -92,7 +119,7 @@ program
       console.log(chalk.gray('----------------------------------------'));
       console.log(`Manifest written to: ${outFile}\n`);
     } catch (error) {
-      console.error(chalk.red(`\n[Error] Execution failed: ${(error as Error).message}\n`));
+      console.error(chalk.redBright(`\n[Fatal Error] ${(error as Error).message}\n`));
       process.exit(1);
     }
   });

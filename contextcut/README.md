@@ -23,6 +23,7 @@ contextcut --dir /path/to/repo --out context.md
 | `-o, --out <filename>` | `context.md` | Output manifest file (resolved against cwd) |
 | `-m, --mode <mode>` | from config | `skeleton` collapses every function body to `{ /* pruned */ }`, keeping signatures, types, and module structure only; `full-text` keeps bodies and only strips comments/blank lines |
 | `-p, --prune-bodies` | — | Alias for `--mode skeleton` |
+| `-k, --key <token>` | `CONTEXTCUT_LICENSE` env | Premium team license key: verify against the Edge API and sync the team's remote config |
 
 ## Configuration
 
@@ -40,6 +41,14 @@ Drop a `.contextcutrc` (JSON) in the target directory:
 
 A missing config file is fine (defaults apply); a malformed one prints a warning and falls back to defaults rather than being silently ignored.
 
+### Remote team config
+
+With `-k, --key <token>` (or `CONTEXTCUT_LICENSE`), the CLI verifies the license against the Edge API (`CONTEXTCUT_API_URL`, defaulting to the deployed worker URL) and pulls the team's shared config. Full precedence:
+
+**CLI flags > remote team config > local `.contextcutrc` > built-in defaults**
+
+When a key is provided, *any* sync failure — rejected key or unreachable API — aborts the run (exit 1). This is deliberate: a team's remote config may carry ignore rules that keep sensitive directories out of manifests, so the CLI refuses to fall back to weaker local rules once team sync was requested. Run without the key to work offline with local config.
+
 ## Packaging standalone binaries
 
 ```bash
@@ -54,6 +63,26 @@ Output names: `contextcut-linux-x64`, `contextcut-macos-x64`, `contextcut-macos-
 CI: pushes to `main` touching `contextcut/` (or a manual dispatch) run `.github/workflows/contextcut-binaries.yml` at the repo root, which packages all four targets and uploads each as a workflow artifact.
 
 macOS caveat: binaries cross-built on Linux are unsigned; Apple Silicon requires at least an ad-hoc signature, so after downloading run `codesign --sign - contextcut-macos-arm64` on a Mac (Gatekeeper will otherwise kill the process).
+
+## Edge API (worker/)
+
+A Cloudflare Worker (`worker/`) provides the hosted side: license verification and team config sync, backed by a KV namespace bound as `CONTEXTCUT_DB`.
+
+- `POST /api/verify` — validates the `Authorization: Bearer <licenseKey>` and returns `{ active, team }`.
+- `GET /api/config/<teamId>` — returns the team's remote `.contextcutrc`; the bearer license must belong to that team. `404` means "no remote config, use local defaults".
+- `POST /api/webhooks/stripe` — Stripe webhook (signature-verified via Web Crypto). On `checkout.session.completed` it mints a `cc_key_*` license, using the Stripe customer id as the team id, and seeds a default team config. Replayed events are deduped per checkout session, so Stripe retries never mint duplicate keys.
+
+KV schema: `license_<key>` → team JSON (`{ "id": "<teamId>", ... }`); `config_<teamId>` → config JSON; `stripe_session_<id>` → minted key (idempotency marker).
+
+Secrets: `wrangler secret put STRIPE_API_KEY` and `wrangler secret put STRIPE_WEBHOOK_SECRET` (locally: `worker/.dev.vars`, gitignored).
+
+```bash
+cd worker
+npm install
+npm run check     # typecheck against workers-types
+npm run dev       # local dev on miniflare (seed data: wrangler kv key put --binding CONTEXTCUT_DB --local ...)
+npm run deploy    # needs a real KV namespace id in wrangler.toml
+```
 
 ## V1 policy
 

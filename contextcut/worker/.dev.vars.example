@@ -1,0 +1,6 @@
+# Copy to .dev.vars (gitignored) and fill in real test-mode values for local dev.
+# Production secrets are NOT set here — use:
+#   wrangler secret put STRIPE_API_KEY
+#   wrangler secret put STRIPE_WEBHOOK_SECRET
+STRIPE_API_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...

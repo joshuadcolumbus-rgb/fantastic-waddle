@@ -1,0 +1,19 @@
+{
+  "name": "contextcut-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ContextCut edge API: license verification and team config sync.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260714.1",
+    "typescript": "^5.5.0",
+    "wrangler": "^4.0.0"
+  },
+  "dependencies": {
+    "stripe": "^22.3.2"
+  }
+}
