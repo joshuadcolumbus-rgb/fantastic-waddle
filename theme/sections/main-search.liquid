@@ -1,0 +1,53 @@
+<section class="ts-section ts-commerce">
+  <div class="ts-container">
+    <h1 class="ts-chapter__title" data-reveal="chars">{{ 'general.search.title' | t }}</h1>
+
+    <form action="{{ routes.search_url }}" method="get" role="search" class="ts-form" style="max-width: 34rem;">
+      <div class="ts-field">
+        <label class="visually-hidden" for="search-input">{{ 'general.search.title' | t }}</label>
+        <input
+          type="search"
+          id="search-input"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'general.search.placeholder' | t }}"
+        >
+      </div>
+      <button type="submit" class="ts-btn ts-btn--ghost">
+        <span class="ts-btn__label">{{ 'general.search.title' | t }}</span>
+      </button>
+    </form>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        {%- paginate search.results by 12 -%}
+          <div class="ts-commerce__grid" style="margin-top: var(--space-4);">
+            {%- for item in search.results -%}
+              <a class="ts-card" href="{{ item.url }}">
+                {%- if item.featured_media -%}
+                  {{ item.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', alt: item.title }}
+                {%- endif -%}
+                <span>{{ item.title }}</span>
+                {%- if item.price -%}
+                  <span class="ts-card__price">{{ item.price | money }}</span>
+                {%- endif -%}
+              </a>
+            {%- endfor -%}
+          </div>
+          {%- if paginate.pages > 1 -%}
+            <nav style="margin-top: var(--space-4);" aria-label="Pagination">{{ paginate | default_pagination }}</nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- else -%}
+        <p class="ts-lede" style="margin-top: var(--space-3);">{{ 'general.search.no_results' | t }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search",
+  "settings": []
+}
+{% endschema %}

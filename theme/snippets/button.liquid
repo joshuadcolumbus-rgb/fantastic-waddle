@@ -1,0 +1,16 @@
+{%- comment -%}
+  Magnetic CTA button.
+    label  — button text (required)
+    url    — href (required)
+    style  — 'solid' (default) | 'ghost'
+{%- endcomment -%}
+{%- if label != blank and url != blank -%}
+  <a
+    class="ts-btn{% if style == 'ghost' %} ts-btn--ghost{% endif %}"
+    href="{{ url }}"
+    data-magnetic
+    data-cursor="link"
+  >
+    <span class="ts-btn__label">{{ label }}</span>
+  </a>
+{%- endif -%}

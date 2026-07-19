@@ -1,0 +1,14 @@
+# Dependencies / build intermediates
+node_modules/
+dist/
+*.log
+.DS_Store
+.env
+.env.*
+.shopify/
+
+# Local screenshots from the dev harness (regenerate with `npm run screenshots`)
+dev/screenshots/*.png
+
+# NOTE: theme/assets build outputs (app.js, app.css, webgl*.js) ARE committed —
+# Shopify has no build step, so the theme directory must be push-ready as-is.

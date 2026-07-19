@@ -1,0 +1,27 @@
+<div class="ts-step ts-glass" {{ block.shopify_attributes }}>
+  <div>
+    <h3>{{ block.settings.title }}</h3>
+    <p>{{ block.settings.text }}</p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Process step",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Step title",
+      "default": "Walk the land"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Step description",
+      "default": "We begin on site — reading light, slope, soil and the way you want to live outdoors."
+    }
+  ],
+  "presets": [{ "name": "Process step" }]
+}
+{% endschema %}

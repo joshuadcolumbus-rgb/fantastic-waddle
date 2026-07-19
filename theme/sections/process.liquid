@@ -1,0 +1,77 @@
+<section
+  class="ts-section ts-process"
+  {% render 'scene-anchor', beat: section.settings.beat, type: 'process' %}
+>
+  <div class="ts-container">
+    {% render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title,
+      lede: section.settings.lede
+    %}
+
+    <div class="ts-process__steps" data-stagger>
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process",
+  "tag": "div",
+  "blocks": [{ "type": "process-step" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "How we work"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "From first walk to final stone"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede"
+    },
+    {
+      "type": "select",
+      "id": "beat",
+      "label": "Scene mood",
+      "info": "Where this chapter sits in the dawn-to-night journey behind the content.",
+      "options": [
+        { "value": "dawn-garden", "label": "Dawn garden" },
+        { "value": "morning-meadow", "label": "Morning meadow" },
+        { "value": "stone-path", "label": "Stone path" },
+        { "value": "pergola-court", "label": "Pergola court" },
+        { "value": "water-garden", "label": "Water garden" },
+        { "value": "emerald-lawn", "label": "Emerald lawn" },
+        { "value": "dusk-glow", "label": "Dusk glow" },
+        { "value": "stone-twilight", "label": "Stone twilight" },
+        { "value": "estate-blue", "label": "Estate blue hour" },
+        { "value": "twilight-gallery", "label": "Twilight gallery" },
+        { "value": "firefly-night", "label": "Firefly night" },
+        { "value": "moonlit-path", "label": "Moonlit path" },
+        { "value": "lantern-walk", "label": "Lantern walk" },
+        { "value": "still-water", "label": "Still water night" }
+      ],
+      "default": "moonlit-path"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Process",
+      "blocks": [
+        { "type": "process-step", "settings": { "title": "Walk the land", "text": "We begin on site — reading light, slope, soil and the way you want to live outdoors." } },
+        { "type": "process-step", "settings": { "title": "Compose the plan", "text": "Concept sketches become a master plan: planting, stone, water, lighting and phasing." } },
+        { "type": "process-step", "settings": { "title": "Build with craft", "text": "Our own crews shape the ground, set the stone and plant every specimen by hand." } },
+        { "type": "process-step", "settings": { "title": "Tend the seasons", "text": "Stewardship keeps the composition maturing beautifully year after year." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

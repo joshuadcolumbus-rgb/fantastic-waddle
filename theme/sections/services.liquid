@@ -1,0 +1,140 @@
+{%- comment -%}
+  The repeatable "journey chapter". The homepage composes one of these per
+  service (landscape design, outdoor living, irrigation, turf, lighting,
+  hardscapes, commercial) — each bound to its own scene mood, so merchants
+  can add, remove and reorder chapters and the WebGL walk re-choreographs.
+{%- endcomment -%}
+<section
+  class="ts-section ts-chapter{% if section.settings.flip %} ts-chapter--flip{% endif %}"
+  {% render 'scene-anchor', beat: section.settings.beat, type: 'service' %}
+>
+  <div class="ts-container">
+    <div class="ts-chapter__grid">
+      <div class="ts-chapter__copy">
+        <div class="ts-glass">
+          {% render 'section-heading',
+            eyebrow: section.settings.eyebrow,
+            title: section.settings.title,
+            lede: section.settings.lede
+          %}
+
+          {%- if section.blocks.size > 0 -%}
+            <ul class="ts-feature-list" data-stagger>
+              {% content_for 'blocks' %}
+            </ul>
+          {%- endif -%}
+
+          {%- if section.settings.cta_label != blank -%}
+            <div style="margin-top: var(--space-3);" data-reveal="fade">
+              {% render 'button', label: section.settings.cta_label, url: section.settings.cta_link, style: 'ghost' %}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="ts-chapter__media{% if section.settings.wide_media %} ts-chapter__media--wide{% endif %}" data-reveal="mask" data-parallax="0.15">
+        {%- if section.settings.video != blank -%}
+          {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
+        {%- elsif section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600, 900, 1200', alt: section.settings.image.alt | default: section.settings.title }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'ts-placeholder' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Service chapter",
+  "tag": "div",
+  "blocks": [{ "type": "service-card" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Service"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Landscape design"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede",
+      "default": "Master plans that read the land first — light, slope, stone and water — then compose it into rooms, walks and views."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Explore the service"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video (overrides image)"
+    },
+    {
+      "type": "checkbox",
+      "id": "flip",
+      "label": "Flip layout (media left)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "wide_media",
+      "label": "Wide media (16:10)",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "beat",
+      "label": "Scene mood",
+      "info": "Where this chapter sits in the dawn-to-night journey behind the content.",
+      "options": [
+        { "value": "dawn-garden", "label": "Dawn garden" },
+        { "value": "morning-meadow", "label": "Morning meadow" },
+        { "value": "stone-path", "label": "Stone path" },
+        { "value": "pergola-court", "label": "Pergola court" },
+        { "value": "water-garden", "label": "Water garden" },
+        { "value": "emerald-lawn", "label": "Emerald lawn" },
+        { "value": "dusk-glow", "label": "Dusk glow" },
+        { "value": "stone-twilight", "label": "Stone twilight" },
+        { "value": "estate-blue", "label": "Estate blue hour" },
+        { "value": "twilight-gallery", "label": "Twilight gallery" },
+        { "value": "firefly-night", "label": "Firefly night" },
+        { "value": "moonlit-path", "label": "Moonlit path" },
+        { "value": "lantern-walk", "label": "Lantern walk" },
+        { "value": "still-water", "label": "Still water night" }
+      ],
+      "default": "stone-path"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Service chapter",
+      "blocks": [
+        { "type": "service-card", "settings": { "icon": "leaf", "title": "Planting design", "text": "Layered, seasonal planting plans built for your soil and light." } },
+        { "type": "service-card", "settings": { "icon": "stone", "title": "Site composition", "text": "Grading, walks and walls that guide movement naturally." } },
+        { "type": "service-card", "settings": { "icon": "sun", "title": "Light studies", "text": "Designs tested against real sun paths across the year." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,24 @@
+<section class="ts-section ts-commerce">
+  <div class="ts-container">
+    <h1 class="ts-chapter__title" data-reveal="chars">{{ 'collections.title' | t }}</h1>
+    <div class="ts-commerce__grid" data-stagger>
+      {%- for collection in collections -%}
+        <a class="ts-card" href="{{ collection.url }}">
+          {%- if collection.featured_image -%}
+            {{ collection.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: collection.title }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'ts-placeholder' }}
+          {%- endif -%}
+          <span>{{ collection.title }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": []
+}
+{% endschema %}

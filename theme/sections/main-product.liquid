@@ -1,0 +1,77 @@
+<section class="ts-section ts-commerce">
+  <div class="ts-container">
+    <div class="ts-product">
+      <div class="ts-product__media">
+        {%- if product.featured_media -%}
+          {{ product.featured_media | image_url: width: 1400 | image_tag: loading: 'eager', widths: '600, 1000, 1400', alt: product.featured_media.alt | default: product.title }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'ts-placeholder' }}
+        {%- endif -%}
+      </div>
+
+      <div class="ts-product__panel ts-glass">
+        <p class="ts-eyebrow">{{ product.vendor | default: shop.name }}</p>
+        <h1 class="ts-chapter__title" style="font-size: var(--fs-h3); max-width: none;">{{ product.title }}</h1>
+        <p class="ts-product__price">
+          {{ product.selected_or_first_available_variant.price | money }}
+          {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+            <s style="color: var(--c-ink-faint); margin-left: 0.6em;">{{ product.selected_or_first_available_variant.compare_at_price | money }}</s>
+          {%- endif -%}
+        </p>
+
+        {% form 'product', product, class: 'ts-form' %}
+          {%- unless product.has_only_default_variant -%}
+            <div class="ts-field">
+              <label for="variant-{{ product.id }}">Options</label>
+              <select id="variant-{{ product.id }}" name="id">
+                {%- for variant in product.variants -%}
+                  <option
+                    value="{{ variant.id }}"
+                    {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                    {{ variant.title }} — {{ variant.price | money }}
+                    {%- unless variant.available %} ({{ 'products.sold_out' | t }}){% endunless %}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {%- endunless -%}
+
+          <div class="ts-field">
+            <label for="qty-{{ product.id }}">{{ 'products.quantity' | t }}</label>
+            <input class="ts-qty" type="number" id="qty-{{ product.id }}" name="quantity" min="1" value="1">
+          </div>
+
+          <button
+            type="submit"
+            class="ts-btn"
+            data-magnetic
+            {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+          >
+            <span class="ts-btn__label">
+              {%- if product.selected_or_first_available_variant.available -%}
+                {{ 'products.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.sold_out' | t }}
+              {%- endif -%}
+            </span>
+          </button>
+        {% endform %}
+
+        <div style="margin-top: var(--space-3); color: var(--c-ink-dim);">
+          {{ product.description }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

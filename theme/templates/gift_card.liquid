@@ -1,0 +1,22 @@
+<section class="ts-section ts-commerce" style="display: grid; align-content: center; text-align: center; min-height: 80svh;">
+  <div class="ts-container" style="max-width: 30rem;">
+    <p class="ts-eyebrow" style="justify-content: center;">{{ shop.name }}</p>
+    <h1 class="ts-chapter__title" style="margin-inline: auto;">{{ 'gift_cards.title' | t }}</h1>
+    <p class="ts-lede" style="margin-inline: auto;">{{ 'gift_cards.subtext' | t }}</p>
+
+    <div class="ts-glass" style="padding: var(--space-4); margin-top: var(--space-3);">
+      <p style="font-family: var(--font-display); font-size: 2.2rem; color: var(--c-gold-bright); margin: 0;">
+        {{ gift_card.balance | money }}
+      </p>
+      <p style="letter-spacing: 0.2em; margin-top: var(--space-2);"><code>{{ gift_card.code | format_code }}</code></p>
+      {%- if gift_card.expired -%}
+        <p role="status">Expired</p>
+      {%- endif -%}
+    </div>
+
+    <div style="margin-top: var(--space-3);">
+      {% assign shop_label = 'gift_cards.shop_link' | t %}
+      {% render 'button', label: shop_label, url: shop.url %}
+    </div>
+  </div>
+</section>

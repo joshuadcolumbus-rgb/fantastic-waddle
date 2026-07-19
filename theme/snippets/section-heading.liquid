@@ -1,0 +1,20 @@
+{%- comment -%}
+  Shared chapter heading: eyebrow + display title + optional lede, wired for
+  the scroll reveal choreography.
+    eyebrow — small uppercase kicker
+    title   — display heading (required)
+    lede    — supporting paragraph
+    level   — heading level number, default 2
+{%- endcomment -%}
+{%- liquid
+  assign heading_level = level | default: 2
+-%}
+{%- if eyebrow != blank -%}
+  <p class="ts-eyebrow" data-reveal="fade">{{ eyebrow }}</p>
+{%- endif -%}
+{%- if title != blank -%}
+  <h{{ heading_level }} class="ts-chapter__title" data-reveal="chars">{{ title }}</h{{ heading_level }}>
+{%- endif -%}
+{%- if lede != blank -%}
+  <p class="ts-lede" data-reveal="lines">{{ lede }}</p>
+{%- endif -%}

@@ -1,0 +1,138 @@
+<section
+  class="ts-section ts-contact"
+  {% render 'scene-anchor', beat: section.settings.beat, type: 'contact' %}
+>
+  <div class="ts-container">
+    <div class="ts-contact__card ts-glass" data-reveal="fade">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="ts-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="ts-contact__title" data-reveal="chars">{{ section.settings.title }}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="ts-lede">{{ section.settings.lede }}</p>
+        {%- endif -%}
+
+        <div class="ts-contact__channels">
+          {%- if settings.contact_phone != blank -%}
+            <p class="ts-contact__channel">
+              <span>Telephone</span>
+              <a href="tel:{{ settings.contact_phone | remove: ' ' }}">{{ settings.contact_phone }}</a>
+            </p>
+          {%- endif -%}
+          {%- if settings.contact_email != blank -%}
+            <p class="ts-contact__channel">
+              <span>Email</span>
+              <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>
+            </p>
+          {%- endif -%}
+          {%- if settings.contact_hours != blank -%}
+            <p class="ts-contact__channel">
+              <span>Studio hours</span>
+              {{ settings.contact_hours }}
+            </p>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div>
+        {% form 'contact', class: 'ts-form' %}
+          {%- if form.posted_successfully? -%}
+            <p class="ts-lede" role="status">{{ section.settings.success_message }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p role="alert">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+
+          <div class="ts-field">
+            <label for="contact-name">Name</label>
+            <input type="text" id="contact-name" name="contact[name]" autocomplete="name" required>
+          </div>
+          <div class="ts-field">
+            <label for="contact-email">Email</label>
+            <input type="email" id="contact-email" name="contact[email]" autocomplete="email" required>
+          </div>
+          <div class="ts-field">
+            <label for="contact-phone">Telephone</label>
+            <input type="tel" id="contact-phone" name="contact[phone]" autocomplete="tel">
+          </div>
+          <div class="ts-field">
+            <label for="contact-body">Tell us about your grounds</label>
+            <textarea id="contact-body" name="contact[body]" rows="4" required></textarea>
+          </div>
+
+          <button type="submit" class="ts-btn" data-magnetic>
+            <span class="ts-btn__label">{{ section.settings.submit_label }}</span>
+          </button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Begin"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Let's walk your land together"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede",
+      "default": "Tell us about your grounds and the way you want to live in them. We'll arrange a site walk and a first conversation."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Request a consultation"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you — we'll be in touch within one business day."
+    },
+    {
+      "type": "select",
+      "id": "beat",
+      "label": "Scene mood",
+      "info": "Where this chapter sits in the dawn-to-night journey behind the content.",
+      "options": [
+        { "value": "dawn-garden", "label": "Dawn garden" },
+        { "value": "morning-meadow", "label": "Morning meadow" },
+        { "value": "stone-path", "label": "Stone path" },
+        { "value": "pergola-court", "label": "Pergola court" },
+        { "value": "water-garden", "label": "Water garden" },
+        { "value": "emerald-lawn", "label": "Emerald lawn" },
+        { "value": "dusk-glow", "label": "Dusk glow" },
+        { "value": "stone-twilight", "label": "Stone twilight" },
+        { "value": "estate-blue", "label": "Estate blue hour" },
+        { "value": "twilight-gallery", "label": "Twilight gallery" },
+        { "value": "firefly-night", "label": "Firefly night" },
+        { "value": "moonlit-path", "label": "Moonlit path" },
+        { "value": "lantern-walk", "label": "Lantern walk" },
+        { "value": "still-water", "label": "Still water night" }
+      ],
+      "default": "still-water"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact"
+    }
+  ]
+}
+{% endschema %}

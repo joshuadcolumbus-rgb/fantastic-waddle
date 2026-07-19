@@ -1,0 +1,72 @@
+<section class="ts-section ts-commerce">
+  <div class="ts-container" style="max-width: 40rem;">
+    <h1 class="ts-chapter__title" data-reveal="chars">{{ 'customer.addresses.title' | t }}</h1>
+
+    {%- for address in customer.addresses -%}
+      <div class="ts-glass" style="padding: var(--space-3); margin-bottom: var(--space-2);">
+        {%- if address == customer.default_address -%}
+          <p class="ts-eyebrow">{{ 'customer.addresses.default' | t }}</p>
+        {%- endif -%}
+        {{ address | format_address }}
+        <p>
+          <a href="#" onclick="return false;">{{ 'customer.addresses.edit' | t }}</a>
+          ·
+          {% form 'customer_address', address %}
+            <button
+              type="submit"
+              name="_method"
+              value="delete"
+              style="background: none; border: 0; color: var(--c-ink-dim); cursor: pointer; padding: 0; font: inherit; text-decoration: underline;"
+            >
+              {{ 'customer.addresses.delete' | t }}
+            </button>
+          {% endform %}
+        </p>
+      </div>
+    {%- endfor -%}
+
+    <h2 style="font-size: var(--fs-h3); margin-top: var(--space-4);">{{ 'customer.addresses.add_new' | t }}</h2>
+    {% form 'customer_address', customer.new_address, class: 'ts-form' %}
+      <div class="ts-field">
+        <label for="addr-first">{{ 'customer.addresses.first_name' | t }}</label>
+        <input type="text" id="addr-first" name="address[first_name]" autocomplete="given-name">
+      </div>
+      <div class="ts-field">
+        <label for="addr-last">{{ 'customer.addresses.last_name' | t }}</label>
+        <input type="text" id="addr-last" name="address[last_name]" autocomplete="family-name">
+      </div>
+      <div class="ts-field">
+        <label for="addr-address1">{{ 'customer.addresses.address1' | t }}</label>
+        <input type="text" id="addr-address1" name="address[address1]" autocomplete="address-line1">
+      </div>
+      <div class="ts-field">
+        <label for="addr-city">{{ 'customer.addresses.city' | t }}</label>
+        <input type="text" id="addr-city" name="address[city]" autocomplete="address-level2">
+      </div>
+      <div class="ts-field">
+        <label for="addr-country">{{ 'customer.addresses.country' | t }}</label>
+        <select id="addr-country" name="address[country]" data-default="{{ customer.new_address.country }}">
+          {{ all_country_option_tags }}
+        </select>
+      </div>
+      <div class="ts-field">
+        <label for="addr-zip">{{ 'customer.addresses.zip' | t }}</label>
+        <input type="text" id="addr-zip" name="address[zip]" autocomplete="postal-code">
+      </div>
+      <div class="ts-field">
+        <label for="addr-phone">{{ 'customer.addresses.phone' | t }}</label>
+        <input type="tel" id="addr-phone" name="address[phone]" autocomplete="tel">
+      </div>
+      <button type="submit" class="ts-btn" data-magnetic>
+        <span class="ts-btn__label">{{ 'customer.addresses.add' | t }}</span>
+      </button>
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Addresses",
+  "settings": []
+}
+{% endschema %}

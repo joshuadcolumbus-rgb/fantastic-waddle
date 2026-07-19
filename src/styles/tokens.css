@@ -1,0 +1,50 @@
+/*
+ * Design tokens. Brand-facing values (accent, greens) can be overridden by
+ * the Theme Editor: layout/theme.liquid re-declares the custom properties
+ * from settings AFTER app.css loads, so merchant choices always win.
+ */
+:root {
+  /* palette — warm neutrals, deep greens, stone */
+  --c-ink: #f4f1e8;
+  --c-ink-dim: rgba(244, 241, 232, 0.74);
+  --c-ink-faint: rgba(244, 241, 232, 0.52);
+  --c-deep: #0c120a;
+  --c-deep-80: rgba(12, 18, 10, 0.8);
+  --c-moss: #4c6b43;
+  --c-sage: #a9bd9a;
+  --c-gold: #c9a86a;
+  --c-gold-bright: #e0c288;
+  --c-stone: #b8b0a4;
+
+  /* glassmorphism */
+  --glass-bg: rgba(9, 13, 8, 0.4);
+  --glass-bg-strong: rgba(9, 13, 8, 0.62);
+  --glass-border: rgba(244, 241, 232, 0.1);
+  --glass-blur: 18px;
+
+  /* type */
+  --font-display: 'Fraunces Variable', 'Fraunces', georgia, serif;
+  --font-text: 'Inter Variable', 'Inter', -apple-system, blinkmacsystemfont, 'Segoe UI', sans-serif;
+  --fs-hero: clamp(2.9rem, 8.2vw, 7.4rem);
+  --fs-h2: clamp(2.1rem, 4.6vw, 4.4rem);
+  --fs-h3: clamp(1.4rem, 2.4vw, 2.1rem);
+  --fs-lede: clamp(1.05rem, 1.5vw, 1.35rem);
+  --fs-body: clamp(0.98rem, 1.1vw, 1.08rem);
+  --fs-eyebrow: clamp(0.72rem, 0.85vw, 0.82rem);
+
+  /* rhythm */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.75rem;
+  --space-4: 2.75rem;
+  --space-5: 4.5rem;
+  --space-6: 7rem;
+  --space-section: clamp(6rem, 14vh, 11rem);
+  --content-max: 78rem;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius: 16px;
+  --radius-lg: 24px;
+}

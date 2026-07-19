@@ -1,0 +1,14 @@
+{
+  "current": {
+    "color_accent": "#c9a86a",
+    "color_primary": "#4c6b43",
+    "color_background": "#0c120a",
+    "color_text": "#f4f1e8",
+    "contact_phone": "+1 (555) 010-4400",
+    "contact_email": "studio@terraandstone.com",
+    "contact_hours": "Mon–Fri, 8am–5pm",
+    "enable_webgl": true,
+    "enable_particles": true,
+    "motion_intensity": 1.0
+  }
+}

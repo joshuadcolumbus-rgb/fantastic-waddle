@@ -1,0 +1,4 @@
+/* Terra & Stone — design system entry (bundled to theme/assets/app.css) */
+@import './tokens.css';
+@import './base.css';
+@import './sections.css';
