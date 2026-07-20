@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-carbon: #09090b;
+  --color-gunmetal: #18181b;
+  --color-amber: #f59e0b;
+  --color-steel: #fafaf9;
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+html {
+  background: var(--color-carbon);
+  scrollbar-color: var(--color-gunmetal) var(--color-carbon);
+  scrollbar-width: thin;
+}
+
+/* The page background lives on html ONLY: an opaque body background would
+   paint over the fixed -z-10 WebGL canvas and hide the whole scene. */
+body {
+  color: var(--color-steel);
+  font-family: var(--font-display);
+  overflow-x: clip;
+  overscroll-behavior-y: none;
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-carbon);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-carbon);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gunmetal);
+  border: 2px solid var(--color-carbon);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Lenis recommended styles (smooth scroll host classes) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Feathered carbon halo behind overlay copy: keeps type legible when it
+   crosses the glowing grid members without flattening the 3D depth. */
+.text-halo {
+  background: radial-gradient(
+    120% 120% at 50% 50%,
+    rgb(9 9 11 / 0.8) 0%,
+    rgb(9 9 11 / 0.45) 45%,
+    transparent 72%
+  );
+}
+
+/*
+ * Reduced motion: scrub choreography is skipped in JS (tweens are never
+ * created), and this safety net guarantees every scrub-animated element is
+ * fully legible even if a tween slipped through.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  [data-scrub] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

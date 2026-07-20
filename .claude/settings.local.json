@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Bash(npm install *)",
+      "Bash(shopify --version)",
+      "Bash(shopify --help)",
+      "Bash(shopify auth *)",
+      "Bash(shopify store *)",
+      "Bash(shopify theme *)",
+      "Read(//home/codespace/.claude/plugins/cache/claude-plugins-official/shopify-ai-toolkit/1.5.2/skills/shopify-liquid/**)",
+      "Bash(node scripts/search_docs.mjs \"contact form section schema\" --model claude-sonnet-5 --client-name claude-code --client-version 1.0.0)",
+      "Bash(node scripts/search_docs.mjs \"section schema settings color padding\" --model claude-sonnet-5 --client-name claude-code --client-version 1.0.0)",
+      "Bash(python3 -c ' *)",
+      "Skill(shopify-plugin:shopify-liquid)",
+      "Skill(shopify-plugin:shopify-liquid:*)",
+      "mcp__claude_ai_Shopify__graphql_schema",
+      "Bash(pwd; whoami; ls -la /home/user/fantastic-waddle/.claude/ 2>&1; ls -ld /home/user /home/user/fantastic-waddle 2>&1)",
+      "Read(//home/**)",
+      "Bash(grep -vE '^\\\\.\\\\.?$')",
+      "Bash(npx shopify *)",
+      "Read(//workspaces/**)",
+      "Bash(git --version)",
+      "Bash(git clone *)",
+      "Bash(python3 -m http.server 8000)",
+      "Bash(curl -sI http://localhost:8000/app-release.apk)",
+      "Bash(flutter --version)"
+    ]
+  }
+}

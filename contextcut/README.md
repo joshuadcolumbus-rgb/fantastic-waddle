@@ -70,6 +70,7 @@ A Cloudflare Worker (`worker/`) provides the hosted side: license verification a
 
 - `POST /api/verify` — validates the `Authorization: Bearer <licenseKey>` and returns `{ active, team }`.
 - `GET /api/config/<teamId>` — returns the team's remote `.contextcutrc`; the bearer license must belong to that team. `404` means "no remote config, use local defaults".
+- `PUT /api/config/<teamId>` — writes the team's remote config (used by the Dashboard); same ownership check as the read path, plus shape validation on `mode`/`ignoreDirs`.
 - `POST /api/webhooks/stripe` — Stripe webhook (signature-verified via Web Crypto). On `checkout.session.completed` it mints a `cc_key_*` license, using the Stripe customer id as the team id, and seeds a default team config. Replayed events are deduped per checkout session, so Stripe retries never mint duplicate keys.
 
 KV schema: `license_<key>` → team JSON (`{ "id": "<teamId>", ... }`); `config_<teamId>` → config JSON; `stripe_session_<id>` → minted key (idempotency marker).
@@ -83,6 +84,19 @@ npm run check     # typecheck against workers-types
 npm run dev       # local dev on miniflare (seed data: wrangler kv key put --binding CONTEXTCUT_DB --local ...)
 npm run deploy    # needs a real KV namespace id in wrangler.toml
 ```
+
+## Dashboard (dashboard/)
+
+A Vite + React + Tailwind app (`dashboard/`) for teams to manage their remote config without touching the CLI. Enter a `cc_key_*` license to authenticate against `/api/verify`, then edit engine mode and ignore directories and save via `PUT /api/config/<teamId>`.
+
+```bash
+cd dashboard
+npm install
+npm run dev     # http://localhost:5173, points at http://localhost:8787 by default
+npm run build   # dist/ static bundle — deploy anywhere (Pages, the worker's assets, etc.)
+```
+
+Point it at a non-default worker with `VITE_API_BASE_URL` (see `.env.example`).
 
 ## V1 policy
 

@@ -21,9 +21,11 @@ interface TeamData {
 // Standard CORS headers so the CLI and future Dashboard can hit the API
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
+
+const VALID_MODES = new Set(['skeleton', 'full-text']);
 
 /** JSON response with CORS + Content-Type applied consistently. */
 function json(data: unknown, status = 200): Response {
@@ -65,6 +67,12 @@ export default {
       if (path.startsWith('/api/config/') && request.method === 'GET') {
         const teamId = path.split('/')[3];
         return await handleConfigSync(request, env, teamId);
+      }
+
+      // Route: Update Remote Configuration (Dashboard)
+      if (path.startsWith('/api/config/') && request.method === 'PUT') {
+        const teamId = path.split('/')[3];
+        return await handleConfigUpdate(request, env, teamId);
       }
 
       return json({ error: 'Route not found' }, 404);
@@ -124,6 +132,54 @@ async function handleConfigSync(request: Request, env: Env, teamId: string): Pro
     // If no remote config exists, return 404 so the CLI knows to use local defaults
     return json({ error: 'No remote configuration found' }, 404);
   }
+
+  return json(config, 200);
+}
+
+/**
+ * Writes the team-wide .contextcutrc configuration from the Dashboard. Same
+ * ownership check as the read path — the license must belong to the team —
+ * plus shape validation so a malformed dashboard payload can't corrupt the
+ * config every team member's CLI subsequently syncs.
+ */
+async function handleConfigUpdate(request: Request, env: Env, teamId: string): Promise<Response> {
+  if (!teamId) {
+    return json({ error: 'Missing team id' }, 400);
+  }
+
+  const licenseKey = bearerToken(request);
+  if (!licenseKey) {
+    return json({ error: 'Unauthorized' }, 401);
+  }
+
+  const licenseData = await env.CONTEXTCUT_DB.get<TeamData>(`license_${licenseKey}`, 'json');
+  if (!licenseData) {
+    return json({ error: 'Invalid or expired license' }, 403);
+  }
+  if (licenseData.id !== teamId) {
+    return json({ error: 'License does not grant access to this team' }, 403);
+  }
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'Malformed JSON body' }, 400);
+  }
+
+  if (typeof body !== 'object' || body === null) {
+    return json({ error: 'Config must be a JSON object' }, 400);
+  }
+  const { mode, ignoreDirs } = body as Record<string, unknown>;
+  if (!VALID_MODES.has(mode as string)) {
+    return json({ error: `"mode" must be one of: ${[...VALID_MODES].join(', ')}` }, 400);
+  }
+  if (ignoreDirs !== undefined && (!Array.isArray(ignoreDirs) || !ignoreDirs.every((d) => typeof d === 'string'))) {
+    return json({ error: '"ignoreDirs" must be an array of strings' }, 400);
+  }
+
+  const config = { mode, ignoreDirs: ignoreDirs ?? [] };
+  await env.CONTEXTCUT_DB.put(`config_${teamId}`, JSON.stringify(config));
 
   return json(config, 200);
 }
